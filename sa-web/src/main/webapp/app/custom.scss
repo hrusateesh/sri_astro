@@ -1,0 +1,29 @@
+// $body-bg: #fff;
+// $body-color: #111;
+// $navbar-light-bg: red;
+// $link-color:                 #f00; //red
+// $link-hover-color:           #0f0; //green
+
+@import "../../../../node_modules/bootstrap/scss/functions.scss";
+@import "../../../../node_modules/bootstrap/scss/variables.scss";
+// New color
+$new-color: #ad9a5b;
+
+// Array of colors from _variables.scss
+$theme-colors: (
+  primary: $new-color,
+  secondary: $gray-600,
+  success: $green,
+  info: $cyan,
+  warning: $yellow,
+  danger: $red,
+  light: $gray-100,
+  dark: $gray-800
+) !default;
+
+@import "../../../../node_modules/bootstrap/scss/bootstrap";
+
+// $theme-colors: (
+//   "primary": #0074d9,
+//   "danger": #ff4136
+// );
