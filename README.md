@@ -9,16 +9,25 @@ Currently it is Alpha stage.
 Sri Astro is a very basic birth chart analysis writing in java
 
 Frameworks used:
-Java
-Spring Boot
-Hibernate
-React
-...
+* Java 11
+    * Spring Boot 2.1
+        * MVC
+        * JPA
+        * Security
+* React
+    * React Dom
+    * React router
+    * React - Redux
+    * SASS
+    * Webpack
+* H2 Database
+* Gradle with kotlin
+... many more
 
-## Installing Sri Astro
+## Building
 
 
-## Running Sri Astro
+## Running
 
 
 ## Support
