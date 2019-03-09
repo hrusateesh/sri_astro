@@ -1,5 +1,7 @@
 # Sri Astro
 
+[![Build Status](https://travis-ci.org/rockstar84/sri_astro.svg?branch=master)](https://travis-ci.org/rockstar84/sri_astro)
+
 ## About
 
 This package contains web application - `sri_astro`.
