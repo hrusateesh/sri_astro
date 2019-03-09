@@ -16,47 +16,51 @@
  * Contributors:
  * 	Sateesh Gampala - Initial contribution and API
  ******************************************************************************/
-package com.sa.web.pojo;
+package com.sa.dao.entity;
 
-import java.util.HashMap;
+import java.util.Date;
+
+import javax.persistence.*;
 
 /**
- * The <code>ReturnObject</code> is common return for most controllers.
+ * The <code>AbstractDomainClass</code>
  *
  * @author Sateesh G
  * @version 1.0
  * @since 1.0
  */
-public class ReturnObject extends HashMap<String, Object>{
+@MappedSuperclass
+public class AbstractDomainClass {
 
-	private static final long serialVersionUID = 6629753963335762757L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Integer id;
 
-	public ReturnObject() {
-		put("result", new Object());
-		put("success", true);
-	}
+    private Date dateCreated;
+    private Date lastUpdated;
 
-	/**
-	 * @param error
-	 */
-	public void setErrorMessage(String error) {
-		put("success", false);
-		put("errMsg", error);
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	/**
-	 * @param result
-	 */
-	public void setResult(Object result) {
-		put("result", result);
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	/**
-	 * @param key
-	 * @param result
-	 */
-	public void addObject(String key, Object result) {
-		put(key, result);
-	}
+    public Date getDateCreated() {
+        return dateCreated;
+    }
 
+    public Date getLastUpdated() {
+        return lastUpdated;
+    }
+
+    @PreUpdate
+    @PrePersist
+    public void updateTimeStamps() {
+        lastUpdated = new Date();
+        if (dateCreated==null) {
+            dateCreated = new Date();
+        }
+    }
 }

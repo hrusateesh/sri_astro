@@ -1,15 +1,29 @@
+/*******************************************************************************
+ * Copyright 2019 Sateesh Gampala
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.  You may obtain a copy
+ * of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ * 
+ * Contributors:
+ * 	Sateesh Gampala - Initial contribution and API
+ ******************************************************************************/
 package com.sa.web.config;
 
-import javax.servlet.Filter;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.sa.security.authentication.CustomRequestHeaderAuthenticationFilter;
-import com.sa.security.authentication.PreAuthenticatedAuthProvider;
-import com.sa.security.authentication.SiteminderAuthenticationDetailsSource;
+import com.sa.web.interceptor.SessionTimerInterceptor;
 
 /**
  * The <code>WebMvcConfig</code>
@@ -18,29 +32,15 @@ import com.sa.security.authentication.SiteminderAuthenticationDetailsSource;
  * @version 1.0
  * @since 1.0
  */
-//@Configuration
-//@ComponentScan(value = "com.sa")
-public class WebMvcConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+@Configuration
+public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Autowired
-	private PreAuthenticatedAuthProvider authenticationProvider;
+	private SessionTimerInterceptor sessionTimerInterceptor;
 	
-	@Autowired
-	private SiteminderAuthenticationDetailsSource authenticationDetailsSource;
-
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.inMemoryAuthentication().withUser("user1").password("{noop}password1").roles("USER").and()
-//				.withUser("admin").password("{noop}admin").roles("USER", "ADMIN");
-		auth.authenticationProvider(authenticationProvider);
-	}
-
-	protected Filter requestHeaderAuthenticationFilter() throws Exception {
-		CustomRequestHeaderAuthenticationFilter filter = new CustomRequestHeaderAuthenticationFilter();
-		filter.setPrincipalRequestHeader("UID");
-		filter.setAuthenticationManager(authenticationManager());
-		filter.setAuthenticationDetailsSource(authenticationDetailsSource);
-		return filter;
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(sessionTimerInterceptor);
 	}
 
 }

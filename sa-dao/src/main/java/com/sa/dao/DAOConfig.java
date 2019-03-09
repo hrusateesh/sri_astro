@@ -16,47 +16,15 @@
  * Contributors:
  * 	Sateesh Gampala - Initial contribution and API
  ******************************************************************************/
-package com.sa.web.pojo;
+package com.sa.dao;
 
-import java.util.HashMap;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-/**
- * The <code>ReturnObject</code> is common return for most controllers.
- *
- * @author Sateesh G
- * @version 1.0
- * @since 1.0
- */
-public class ReturnObject extends HashMap<String, Object>{
-
-	private static final long serialVersionUID = 6629753963335762757L;
-
-	public ReturnObject() {
-		put("result", new Object());
-		put("success", true);
-	}
-
-	/**
-	 * @param error
-	 */
-	public void setErrorMessage(String error) {
-		put("success", false);
-		put("errMsg", error);
-	}
-
-	/**
-	 * @param result
-	 */
-	public void setResult(Object result) {
-		put("result", result);
-	}
-
-	/**
-	 * @param key
-	 * @param result
-	 */
-	public void addObject(String key, Object result) {
-		put(key, result);
-	}
+@Configuration
+@EntityScan("com.sa.dao.entity")
+@EnableJpaRepositories("com.sa.dao")
+public class DAOConfig {
 
 }
