@@ -16,47 +16,25 @@
  * Contributors:
  * 	Sateesh Gampala - Initial contribution and API
  ******************************************************************************/
-package com.sa.web.pojo;
+package com.sa.security;
 
-import java.util.HashMap;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
- * The <code>ReturnObject</code> is common return for most controllers.
+ * The <code>ExceptionController</code> is a global exception handler
  *
  * @author Sateesh G
  * @version 1.0
  * @since 1.0
  */
-public class ReturnObject extends HashMap<String, Object>{
+@ControllerAdvice
+public class ExceptionController {
 
-	private static final long serialVersionUID = 6629753963335762757L;
-
-	public ReturnObject() {
-		put("result", new Object());
-		put("success", true);
+	@ExceptionHandler(value = Exception.class)
+	public ResponseEntity<Object> exception(Exception exception) {
+		return new ResponseEntity<>("Unable to handle request. Please contact administrator", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-
-	/**
-	 * @param error
-	 */
-	public void setErrorMessage(String error) {
-		put("success", false);
-		put("errMsg", error);
-	}
-
-	/**
-	 * @param result
-	 */
-	public void setResult(Object result) {
-		put("result", result);
-	}
-
-	/**
-	 * @param key
-	 * @param result
-	 */
-	public void addObject(String key, Object result) {
-		put(key, result);
-	}
-
 }

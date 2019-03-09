@@ -15,6 +15,9 @@ tasks.getByName<Jar>("bootJar") {
 
 dependencies {
     implementation(project(":sa-common"))
+    implementation(project(":sa-dao"))
+    implementation("org.apache.commons:commons-lang3:3.8.1")
+    implementation("javax.servlet:javax.servlet-api:4.0.1")
     implementation("org.springframework.boot:spring-boot-starter-security")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

@@ -16,47 +16,29 @@
  * Contributors:
  * 	Sateesh Gampala - Initial contribution and API
  ******************************************************************************/
-package com.sa.web.pojo;
+package com.sa.security.authorization.impl;
 
-import java.util.HashMap;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
+
+import com.sa.security.authorization.ISecurityAuthorization;
+import com.sa.security.authorization.SecurityAuthorizationContext;
 
 /**
- * The <code>ReturnObject</code> is common return for most controllers.
+ * The <code>ResourceExceptionImpl</code> excludes the verrification and aloow the page to be rendered.
  *
  * @author Sateesh G
  * @version 1.0
  * @since 1.0
  */
-public class ReturnObject extends HashMap<String, Object>{
+@Component
+public class ResourceExceptionImpl extends UserVerification implements ISecurityAuthorization {
 
-	private static final long serialVersionUID = 6629753963335762757L;
-
-	public ReturnObject() {
-		put("result", new Object());
-		put("success", true);
-	}
-
-	/**
-	 * @param error
-	 */
-	public void setErrorMessage(String error) {
-		put("success", false);
-		put("errMsg", error);
-	}
-
-	/**
-	 * @param result
-	 */
-	public void setResult(Object result) {
-		put("result", result);
-	}
-
-	/**
-	 * @param key
-	 * @param result
-	 */
-	public void addObject(String key, Object result) {
-		put(key, result);
+	@Override
+	public boolean authorize(SecurityAuthorizationContext context) {
+		String resourceName = StringUtils.remove(getResourceName(context.getRequest()), "/");
+		context.setRequestedResourceName(resourceName);
+		return getResourceExclusion().containsKey(resourceName);
 	}
 
 }

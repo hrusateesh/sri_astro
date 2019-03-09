@@ -16,47 +16,41 @@
  * Contributors:
  * 	Sateesh Gampala - Initial contribution and API
  ******************************************************************************/
-package com.sa.web.pojo;
+package com.sa.security;
 
-import java.util.HashMap;
+import java.io.Serializable;
+import java.util.List;
+
+import com.sa.dao.entity.Role;
+import com.sa.dao.entity.User;
 
 /**
- * The <code>ReturnObject</code> is common return for most controllers.
+ * The <code>UserComposite</code>
  *
  * @author Sateesh G
  * @version 1.0
  * @since 1.0
  */
-public class ReturnObject extends HashMap<String, Object>{
+public class UserComposite implements Serializable {
 
-	private static final long serialVersionUID = 6629753963335762757L;
+	private static final long serialVersionUID = 3998393120741511715L;
+	private User user;
+	private List<Role> roles;
 
-	public ReturnObject() {
-		put("result", new Object());
-		put("success", true);
+	public User getUser() {
+		return user;
 	}
 
-	/**
-	 * @param error
-	 */
-	public void setErrorMessage(String error) {
-		put("success", false);
-		put("errMsg", error);
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	/**
-	 * @param result
-	 */
-	public void setResult(Object result) {
-		put("result", result);
+	public List<Role> getRoles() {
+		return roles;
 	}
 
-	/**
-	 * @param key
-	 * @param result
-	 */
-	public void addObject(String key, Object result) {
-		put(key, result);
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 }

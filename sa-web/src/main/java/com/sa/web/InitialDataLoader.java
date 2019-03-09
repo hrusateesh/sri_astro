@@ -1,3 +1,21 @@
+/*******************************************************************************
+ * Copyright 2019 Sateesh Gampala
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.  You may obtain a copy
+ * of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ * 
+ * Contributors:
+ * 	Sateesh Gampala - Initial contribution and API
+ ******************************************************************************/
 package com.sa.web;
 
 import java.util.Arrays;
@@ -11,9 +29,9 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.sa.dao.pojo.Privilege;
-import com.sa.dao.pojo.Role;
-import com.sa.dao.pojo.User;
+import com.sa.dao.entity.Privilege;
+import com.sa.dao.entity.Role;
+import com.sa.dao.entity.User;
 import com.sa.dao.repository.PrivilegeRepository;
 import com.sa.dao.repository.RoleRepository;
 import com.sa.dao.repository.UserRepository;
@@ -44,18 +62,30 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
 
 		List<Privilege> adminPrivileges = Arrays.asList(readPrivilege, writePrivilege);
-		createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
-		createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
+		Role adminRole = createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
+		Role userRole = createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
 
-		Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-		User user = new User();
-		user.setFirstName("Test");
-		user.setLastName("Test");
-		user.setPassword(passwordEncoder.encode("test"));
-		user.setEmail("test@test.com");
-		user.setRoles(Arrays.asList(adminRole));
-		user.setEnabled(true);
-		userRepository.save(user);
+		if(userRepository.findByEmail("admin@test.com") == null) {
+			User user = new User();
+			user.setFirstName("Admin");
+			user.setLastName("Admin");
+			user.setPassword(passwordEncoder.encode("admin"));
+			user.setEmail("admin@test.com");
+			user.setRoles(Arrays.asList(adminRole));
+			user.setEnabled(true);
+			userRepository.save(user);
+		}
+		
+		if(userRepository.findByEmail("user@test.com") == null) {
+			User user = new User();
+			user.setFirstName("User");
+			user.setLastName("User");
+			user.setPassword(passwordEncoder.encode("user"));
+			user.setEmail("user@test.com");
+			user.setRoles(Arrays.asList(userRole));
+			user.setEnabled(true);
+			userRepository.save(user);
+		}		
 
 		alreadySetup = true;
 	}
@@ -78,7 +108,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		if (role == null) {
 			role = new Role(name);
 			role.setPrivileges(privileges);
-			roleRepository.save(role);
+			role = roleRepository.save(role);
 		}
 		return role;
 	}

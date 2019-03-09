@@ -16,47 +16,41 @@
  * Contributors:
  * 	Sateesh Gampala - Initial contribution and API
  ******************************************************************************/
-package com.sa.web.pojo;
-
-import java.util.HashMap;
+package com.sa.security.authorization;
 
 /**
- * The <code>ReturnObject</code> is common return for most controllers.
+ * The <code>SecurityContants</code> defines any constants
  *
  * @author Sateesh G
  * @version 1.0
  * @since 1.0
  */
-public class ReturnObject extends HashMap<String, Object>{
+public final class SecurityConstants {
 
-	private static final long serialVersionUID = 6629753963335762757L;
+	public static final String ENVIRONMENT = "spring.profiles.active";
+	public static final String ENVIRONMENT_LOCAL = "local";
+	public static final String SESSION_TIME_OUT = "timedOut";
+	public static final String SESSION_TIMED_INVALIDATE = "invalidate";
 
-	public ReturnObject() {
-		put("result", new Object());
-		put("success", true);
+	public static enum ExclusionPages {
+		ERROR("error"), LOGOUT("logout"), SESSIONTIME_OUT("sessionTimeOut"), HTTP_VIWER("httpviewer"),
+		NO_ACCESS("noaccess"), PASSWORD_EXPIRED("passwordExpired"), DB("db");
+
+		private String description;
+
+		private ExclusionPages(String description) {
+			this.description = description;
+
+		}
+
+		public String getDescription() {
+			return description;
+		}
 	}
 
-	/**
-	 * @param error
-	 */
-	public void setErrorMessage(String error) {
-		put("success", false);
-		put("errMsg", error);
-	}
+	public static final String USER_INFO = "userInfo";
+	public static final String HTTP_UID = "uid";
 
-	/**
-	 * @param result
-	 */
-	public void setResult(Object result) {
-		put("result", result);
+	private SecurityConstants() {
 	}
-
-	/**
-	 * @param key
-	 * @param result
-	 */
-	public void addObject(String key, Object result) {
-		put(key, result);
-	}
-
 }
