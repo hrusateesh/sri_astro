@@ -22,9 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * The <code>User</code>
@@ -34,8 +38,12 @@ import javax.persistence.ManyToMany;
  * @since 1.0
  */
 @Entity
-public class User extends AbstractDomainClass {
+@Table(name = "users")
+public class User extends Auditable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -48,6 +56,14 @@ public class User extends AbstractDomainClass {
 	// ~ defaults to @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id"),
 	//     inverseJoinColumns = @joinColumn(name = "role_id"))
 	private List<Role> roles = new ArrayList<>();
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -149,7 +165,7 @@ public class User extends AbstractDomainClass {
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("User [id=").append(id).append(", firstName=").append(firstName).append(", lastName=")
+		builder.append("User [id=").append(getId()).append(", firstName=").append(firstName).append(", lastName=")
 				.append(lastName).append(", email=").append(email).append(", password=").append(password)
 				.append(", enabled=").append(enabled).append(", roles=").append(roles).append("]");
 		return builder.toString();

@@ -21,15 +21,30 @@ package com.sa.dao.entity;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Privilege extends AbstractDomainClass {
+public class Privilege extends Auditable {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 
 	private String name;
 
 	@ManyToMany(mappedBy = "privileges")
 	private List<Role> roles;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public Privilege() {
 		super();
@@ -84,7 +99,7 @@ public class Privilege extends AbstractDomainClass {
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("Privilege [name=").append(name).append("]").append("[id=").append(id).append("]");
+		builder.append("Privilege [name=").append(name).append("]").append("[id=").append(getId()).append("]");
 		return builder.toString();
 	}
 

@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -34,8 +37,11 @@ import javax.persistence.ManyToMany;
  * @since 1.0
  */
 @Entity
-public class Role extends AbstractDomainClass {
+public class Role extends Auditable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 	private String name;
 	private String description;
 
@@ -45,6 +51,14 @@ public class Role extends AbstractDomainClass {
 	@ManyToMany
 	@JoinTable(name = "role_privilege", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
 	private List<Privilege> privileges;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public Role() {
 		super();
@@ -131,7 +145,7 @@ public class Role extends AbstractDomainClass {
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("Role [name=").append(name).append("]").append("[id=").append(id).append("]");
+		builder.append("Role [name=").append(name).append("]").append("[id=").append(getId()).append("]");
 		return builder.toString();
 	}
 
