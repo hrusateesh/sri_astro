@@ -1,6 +1,9 @@
+import com.moowork.gradle.node.npm.NpmTask
+
 plugins {
     war
 	id("org.springframework.boot")
+	id("com.moowork.node") version "1.2.0"
 }
 
 apply(plugin = "io.spring.dependency-management")
@@ -21,3 +24,21 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
 }
+
+node{
+	version = "11.9.0"
+	npmVersion = "6.7.0"
+	download = true
+	nodeModulesDir = file("${project.projectDir}")
+}
+
+tasks.register<NpmTask>("npmBuild") {
+	setArgs(listOf("run","build"))
+}
+
+tasks {
+  "compileJava" {
+    dependsOn("npmBuild")
+    }
+}
+
