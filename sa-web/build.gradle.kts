@@ -33,6 +33,7 @@ node{
 }
 
 tasks.register<NpmTask>("npmBuild") {
+	dependsOn("npm_install")
 	setArgs(listOf("run","build"))
 }
 
