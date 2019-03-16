@@ -1,20 +1,28 @@
 import "@babel/polyfill";
-import 'jquery'; 
-import 'bootstrap';
-import './custom.scss';
+import "jquery";
+import "bootstrap";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "bootstrap-css-only/css/bootstrap.min.css";
+import "mdbreact/dist/css/mdb.css";
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { store, configureFakeBackend, initFetch } from './_helpers';
-import { App } from './App';
+// import './custom.scss';
+
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { store, configureFakeBackend, initFetch } from "./_helpers";
+import { App } from "./App";
 
 initFetch();
 configureFakeBackend(); // setup fake backend
 
-ReactDOM.render(
-  <Provider store={store}>
-        <App />
+const root = document.getElementById("root");
+
+if (root !== null) {
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
     </Provider>,
-  document.getElementById("root")
-);
+    root
+  );
+}

@@ -18,23 +18,11 @@
  ******************************************************************************/
 package com.sa.dao;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.SQLException;
-
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @EnableTransactionManagement
@@ -43,31 +31,4 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 public class DAOConfig {
 
-	@Value("${spring.datasource.url}")
-	private String dbUrl;
-
-	//@Bean
-	public DataSource dataSourceOld() throws URISyntaxException {
-		URI dbUri = new URI(System.getenv("DATABASE_URL"));
-
-		String username = dbUri.getUserInfo().split(":")[0];
-		String password = dbUri.getUserInfo().split(":")[1];
-		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath()
-						+ "?sslmode=require";
-
-		return DataSourceBuilder.create().username(username).password(password).url(dbUrl)
-				.driverClassName("org.postgresql.Driver").build();
-	}
-
-	@Bean
-	public DataSource dataSource() throws SQLException {
-		if (dbUrl == null || dbUrl.isEmpty()) {
-			return new HikariDataSource();
-		} else {
-			HikariConfig config = new HikariConfig();
-			config.setJdbcUrl(dbUrl);
-			config.setDriverClassName("org.postgresql.Driver");
-			return new HikariDataSource(config);
-		}
-	}
 }

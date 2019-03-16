@@ -1,34 +1,42 @@
-import React, { Component } from "react";
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import "./NotFound.scss";
 
-class NotFound extends Component {
+type Props = {
+  history: any
+};
+class NotFound extends React.Component<Props> {
+  handleClick = () => {
+    this.props.history.push("/");
+  };
 
-    handleClick = () => {
-        this.props.history.push("/");
-    }
-
-    render() {
-        return (
-            <div id="notFoundBody">
-                <div className="bubble"></div>
-                <div className="bubble"></div>
-                <div className="bubble"></div>
-                <div className="bubble"></div>
-                <div className="bubble"></div>
-                <div className="main">
-                    <h1>404</h1>
-                    <p>It looks like you're lost...<br />That's a trouble?</p>
-                    <button type="button" onClick={this.handleClick}>Go back</button>
-                </div>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div id="notFoundBody">
+        <div className="bubble" />
+        <div className="bubble" />
+        <div className="bubble" />
+        <div className="bubble" />
+        <div className="bubble" />
+        <div className="main">
+          <h1>404</h1>
+          <p>
+            It looks like you&apos;re lost...
+            <br />
+            That&apos;s a trouble?
+          </p>
+          <button type="button" onClick={this.handleClick}>
+            Go back
+          </button>
+        </div>
+      </div>
+    );
+  }
 }
 
 function mapStateToProps() {
-    return {};
+  return {};
 }
 
 const connectedNotFound = connect(mapStateToProps)(NotFound);
-export { connectedNotFound as NotFound }; 
+export { connectedNotFound as NotFound };

@@ -1,6 +1,16 @@
-import { userConstants } from '../_constants';
+/* eslint-disable no-unused-vars */
+import { userConstants } from "../_constants";
+import type { Action } from "../types/Action";
+import type { User, ErrorObj } from "../types/Custom";
+import type { Exact } from "../types";
 
-export function users(state = {}, action) {
+type State = {
+  items?: Array<*> | any,
+  loading?: boolean,
+  error?: any
+};
+
+export function users(state: State = {}, action: Action): Exact<State> {
   switch (action.type) {
     case userConstants.GETALL_REQUEST:
       return {
@@ -8,43 +18,48 @@ export function users(state = {}, action) {
       };
     case userConstants.GETALL_SUCCESS:
       return {
-        items: action.users
+        items: action.payload
       };
     case userConstants.GETALL_FAILURE:
-      return { 
-        error: action.error
+      return {
+        error: action.payload
       };
     case userConstants.DELETE_REQUEST:
       // add 'deleting:true' property to user being deleted
+      if (!state.items) return { ...state };
       return {
         ...state,
-        items: state.items.map(user =>
-          user.id === action.id
-            ? { ...user, deleting: true }
-            : user
-        )
-      };
-    case userConstants.DELETE_SUCCESS:
-      // remove deleted user from state
-      return {
-        items: state.items.filter(user => user.id !== action.id)
-      };
-    case userConstants.DELETE_FAILURE:
-      // remove 'deleting:true' property and add 'deleteError:[error]' property to user 
-      return {
-        ...state,
-        items: state.items.map(user => {
-          if (user.id === action.id) {
-            // make copy of user without 'deleting:true' property
-            const { deleting, ...userCopy } = user;
-            // return copy of user with 'deleteError:[error]' property
-            return { ...userCopy, deleteError: action.error };
-          }
-
-          return user;
+        items: state.items.map((user: User) => {
+          user.id === action.payload ? { ...user, deleting: true } : user;
         })
       };
+    case userConstants.DELETE_SUCCESS:
+      // remove deleted user from state.
+      if (!state.items) return {};
+      return {
+        items: state.items.filter((user: User) => {
+          user.id !== action.payload;
+        })
+      };
+    case userConstants.DELETE_FAILURE:
+      // remove 'deleting:true' property and add 'deleteError:[error]' property to user
+      if (!state.items) return { ...state };
+      return {
+        ...state,
+        items: state.items.map(
+          (user: User): User => {
+            let err: any = action.payload; // should be ErrorObj
+            if (user.id === err.request) {
+              // make copy of user without 'deleting:true' property
+              const { deleting, ...userCopy } = user;
+              // return copy of user with 'deleteError:[error]' property
+              return { ...userCopy, deleteError: err.error };
+            }
+            return user;
+          }
+        )
+      };
     default:
-      return state
+      return state;
   }
 }

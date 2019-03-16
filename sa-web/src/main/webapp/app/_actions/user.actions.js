@@ -1,110 +1,110 @@
-import { userConstants } from '../_constants';
-import { userService } from '../_services';
-import { alertActions } from './';
-import { history } from '../_helpers';
+// @flow
+import { userConstants } from "../_constants";
+import { userService } from "../_services";
+import { alertActions } from "./";
+import { history } from "../_helpers";
+import type { User } from "../types/Custom";
+import type { Dispatch, GetState } from "../types/Store";
+
+type ThunkAction = (dispatch: Dispatch, getState?: GetState) => any;
 
 export const userActions = {
-    currentUser,
-    login,
-    logout,
-    register,
-    getAll,
-    delete: _delete
+  currentUser,
+  login,
+  logout,
+  register,
+  getAll,
+  delete: _delete
 };
 
-function currentUser() {
-    return dispatch => {
-        dispatch(request());
-        userService.currentUser()
-            .then(user => {dispatch(success(user));},
-                error => {dispatch(failure(error.toString()));}
-            );
-    };
-
-    function request() { return { type: userConstants.CURRENT_USER_REQUEST } }
-    function success(user) { return { type: userConstants.CURRENT_USER_SUCCESS, user } }
-    function failure(error) { return { type: userConstants.CURRENT_USER_FAILURE, error } }
+function currentUser(): ThunkAction {
+  return (dispatch: Dispatch) => {
+    dispatch({ type: userConstants.CURRENT_USER_REQUEST });
+    userService.currentUser().then(
+      (user: User) => {
+        dispatch({ type: userConstants.CURRENT_USER_SUCCESS, payload: user });
+      },
+      (error: any) => {
+        dispatch({ type: userConstants.CURRENT_USER_FAILURE, payload: error });
+      }
+    );
+  };
 }
 
-function login(username, password, remember_me) {
-    return dispatch => {
-        dispatch(request({ username }));
-
-        userService.login(username, password, remember_me)
-            .then(
-                () => {
-                    dispatch(success({ username }));
-                    dispatch(currentUser());
-                },
-                error => {
-                    dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
-                }
-            );
-    };
-
-    function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
-    function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
-    function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+function login(
+  username: string,
+  password: string,
+  remember_me: boolean
+): ThunkAction {
+  return (dispatch: Dispatch) => {
+    dispatch({ type: userConstants.LOGIN_REQUEST });
+    userService.login(username, password, remember_me).then(
+      () => {
+        dispatch({ type: userConstants.LOGIN_SUCCESS, payload: username });
+        dispatch(currentUser());
+      },
+      (error: any) => {
+        dispatch({ type: userConstants.LOGIN_FAILURE, payload: error });
+        dispatch(alertActions.error(error.toString()));
+      }
+    );
+  };
 }
 
-function logout() {
+function logout(): ThunkAction {
+  return (dispatch: Dispatch) => {
     userService.logout();
-    return { type: userConstants.LOGOUT };
+    dispatch({ type: "USER_LOGOUT" });
+  };
 }
 
-function register(user) {
-    return dispatch => {
-        dispatch(request(user));
+function register(user: User): ThunkAction {
+  return (dispatch: Dispatch) => {
+    dispatch({ type: userConstants.REGISTER_REQUEST, payload: user });
 
-        userService.register(user)
-            .then(
-                user => {
-                    dispatch(success());
-                    history.push('/login');
-                    dispatch(alertActions.success('Registration successful'));
-                },
-                error => {
-                    dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
-                }
-            );
-    };
-
-    function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
-    function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
-    function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+    userService.register(user).then(
+      () => {
+        dispatch({ type: userConstants.REGISTER_SUCCESS });
+        history.push("/login");
+        dispatch(alertActions.success("Registration successful"));
+      },
+      (error: any) => {
+        dispatch({ type: userConstants.REGISTER_FAILURE, payload: error });
+        dispatch(alertActions.error(error.toString()));
+      }
+    );
+  };
 }
 
-function getAll() {
-    return dispatch => {
-        dispatch(request());
-
-        userService.getAll()
-            .then(
-                users => dispatch(success(users)),
-                error => dispatch(failure(error.toString()))
-            );
-    };
-
-    function request() { return { type: userConstants.GETALL_REQUEST } }
-    function success(users) { return { type: userConstants.GETALL_SUCCESS, users } }
-    function failure(error) { return { type: userConstants.GETALL_FAILURE, error } }
+function getAll(): ThunkAction {
+  return (dispatch: Dispatch) => {
+    dispatch({ type: userConstants.GETALL_REQUEST });
+    userService.getAll().then(
+      (users: Array<User>) => {
+        dispatch({ type: userConstants.GETALL_SUCCESS, payload: users });
+      },
+      (error: any) => {
+        dispatch({ type: userConstants.GETALL_FAILURE, payload: error });
+      }
+    );
+  };
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(id) {
-    return dispatch => {
-        dispatch(request(id));
+function _delete(id: number): ThunkAction {
+  return (dispatch: Dispatch) => {
+    dispatch({ type: userConstants.DELETE_REQUEST, payload: id });
 
-        userService.delete(id)
-            .then(
-                user => dispatch(success(id)),
-                error => dispatch(failure(id, error.toString()))
-            );
-    };
-
-    function request(id) { return { type: userConstants.DELETE_REQUEST, id } }
-    function success(id) { return { type: userConstants.DELETE_SUCCESS, id } }
-    function failure(id, error) { return { type: userConstants.DELETE_FAILURE, id, error } }
+    userService.delete(id).then(
+      () => {
+        dispatch({ type: userConstants.DELETE_SUCCESS, payload: id });
+      },
+      (error: any) => {
+        dispatch({
+          type: userConstants.DELETE_FAILURE,
+          payload: { request: id, error }
+        });
+      }
+    );
+  };
 }

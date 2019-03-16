@@ -1,3 +1,4 @@
+/* eslint-disable */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -7,7 +8,27 @@ module.exports = {
     entry: "./app/main.js",
     module: {
         rules: [
-            { test: /\.(js|jsx)$/, use: 'babel-loader' }
+            { test: /\.(js|jsx)$/, use: ["babel-loader", "eslint-loader"] },
+            {
+                test: /\.(png|jpg|svg)(\?v=\d+\.\d+\.\d+)?$/i,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'images/'
+                    }
+                }]
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/i,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/'
+                    }
+                }]
+            }
         ]
     },
     plugins: [

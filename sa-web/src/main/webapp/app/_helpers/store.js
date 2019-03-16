@@ -1,14 +1,14 @@
-import { createStore, applyMiddleware } from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import { createLogger } from 'redux-logger';
-import rootReducer from '../_reducers';
+// @flow
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import { createLogger } from "redux-logger";
+import type { Dispatch } from "redux";
 
-const loggerMiddleware = createLogger();
+import type { Action } from "../types/Action";
 
-export const store = createStore(
-    rootReducer,
-    applyMiddleware(
-        thunkMiddleware,
-        loggerMiddleware
-    )
+import rootReducer from "../_reducers";
+
+export const store = createStore<Object, Action, Dispatch<Action>>(
+  rootReducer,
+  applyMiddleware(thunk, createLogger())
 );

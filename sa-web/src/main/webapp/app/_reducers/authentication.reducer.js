@@ -1,34 +1,43 @@
-import { userConstants } from '../_constants';
+// @flow
+import { userConstants } from "../_constants";
+import type { Action } from "../types/Action";
+import type { User } from "../types/Custom";
 
-let user = localStorage.getItem('user');
-user = (user != 'undefined')?JSON.parse(user):null;
+type State = {
+  user?: User,
+  loggingIn?: boolean
+};
+
+let user = localStorage.getItem("user");
+user = user != "undefined" && user != null ? JSON.parse(user) : null;
 const initialState = user ? { loggedIn: true, user } : {};
 
-export function authentication(state = initialState, action) {
+export function authentication(
+  state: State = initialState,
+  action: Action
+): State {
   switch (action.type) {
     case userConstants.CURRENT_USER_REQUEST:
       return {};
     case userConstants.CURRENT_USER_SUCCESS:
       return {
-        user: action.user
+        user: action.payload
       };
     case userConstants.CURRENT_USER_FAILURE:
       return {};
     case userConstants.LOGIN_REQUEST:
       return {
-        loggingIn: true,
-        user: action.user
+        loggingIn: true
       };
     case userConstants.LOGIN_SUCCESS:
       return {
-        loggedIn: true,
-        user: action.user
+        loggedIn: true
       };
     case userConstants.LOGIN_FAILURE:
       return {};
     case userConstants.LOGOUT:
       return {};
     default:
-      return state
+      return state;
   }
 }

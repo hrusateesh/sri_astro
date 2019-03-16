@@ -1,6 +1,11 @@
-import { userConstants } from '../_constants';
+import { userConstants } from "../_constants";
+import type { Action } from "../types/Action";
 
-export function registration(state = {}, action) {
+type State = {
+  registering?: boolean
+};
+
+export function registration(state: State = {}, action: Action): State {
   switch (action.type) {
     case userConstants.REGISTER_REQUEST:
       return { registering: true };
@@ -9,6 +14,6 @@ export function registration(state = {}, action) {
     case userConstants.REGISTER_FAILURE:
       return {};
     default:
-      return state
+      return state;
   }
 }

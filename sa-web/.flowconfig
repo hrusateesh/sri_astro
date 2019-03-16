@@ -1,0 +1,21 @@
+[ignore]
+<PROJECT_ROOT>/\.settings/.*
+<PROJECT_ROOT>/\.vscode/.*
+<PROJECT_ROOT>/build/.*
+<PROJECT_ROOT>/bin/.*
+<PROJECT_ROOT>/logs/.*
+<PROJECT_ROOT>/node_modules/.*
+<PROJECT_ROOT>/src/main/java/.*
+<PROJECT_ROOT>/src/main/resources/.*
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+all=true
+module.name_mapper='.*\.css' -> '<PROJECT_ROOT>/src/main/webapp/app/types/CSSFlowStub.js'
+module.name_mapper='.*\.scss' -> '<PROJECT_ROOT>/src/main/webapp/app/types/CSSFlowStub.js'
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+[strict]
