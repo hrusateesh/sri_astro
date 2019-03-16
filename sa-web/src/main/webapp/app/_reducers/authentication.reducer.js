@@ -5,7 +5,8 @@ import type { User } from "../types/Custom";
 
 type State = {
   user?: User,
-  loggingIn?: boolean
+  loggingIn?: boolean,
+  error?: string
 };
 
 let user = localStorage.getItem("user");
@@ -20,21 +21,15 @@ export function authentication(
     case userConstants.CURRENT_USER_REQUEST:
       return {};
     case userConstants.CURRENT_USER_SUCCESS:
-      return {
-        user: action.payload
-      };
+      return { user: action.payload };
     case userConstants.CURRENT_USER_FAILURE:
       return {};
     case userConstants.LOGIN_REQUEST:
-      return {
-        loggingIn: true
-      };
+      return { loggingIn: true };
     case userConstants.LOGIN_SUCCESS:
-      return {
-        loggedIn: true
-      };
+      return { loggedIn: true };
     case userConstants.LOGIN_FAILURE:
-      return {};
+      return { error: action.payload };
     case userConstants.LOGOUT:
       return {};
     default:

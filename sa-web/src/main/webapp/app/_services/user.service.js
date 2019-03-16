@@ -1,7 +1,11 @@
 /* eslint-disable no-undef */
-import config from "config";
 import * as qs from "qs";
 import type { User } from "../types/Custom";
+
+const api = {
+  baseUrl: __API__,
+  url: __API__ + "/rest"
+};
 
 export const userService = {
   login,
@@ -23,12 +27,12 @@ function login(username: string, password: string, remember_me: boolean): any {
     body: qs.stringify({ username, password, remember_me })
   };
   // $FlowFixMe: suppressing this error until we can refactor
-  return $fetch(`${config.apiUrl}/login`, options);
+  return $fetch(api.url + "/login", options);
 }
 
 function currentUser(): any {
   // $FlowFixMe: suppressing this error until we can refactor
-  return $getJSON(`${config.apiBaseUrl}/currentUser`).then((data: any) => {
+  return $getJSON(api.baseUrl + "/currentUser").then((data: any) => {
     if (data.result != "anonymousUser") {
       localStorage.setItem("user", JSON.stringify(data.result));
       return data.result;
@@ -42,31 +46,31 @@ function currentUser(): any {
 function logout(): any {
   localStorage.removeItem("user");
   // $FlowFixMe: suppressing this error until we can refactor
-  return $getJSON(`${config.apiUrl}/logout`);
+  return $getJSON(api.url + "/logout");
 }
 
 function getAll(): any {
   // $FlowFixMe: suppressing this error until we can refactor
-  return $getJSON(`${config.apiUrl}/users`);
+  return $getJSON(api.url + "/users");
 }
 
 function getById(id: number): any {
   // $FlowFixMe: suppressing this error until we can refactor
-  return $getJSON(`${config.apiUrl}/users/${id}`);
+  return $getJSON(api.url + `/users/${id}`);
 }
 
 function register(user: User): any {
   // $FlowFixMe: suppressing this error until we can refactor
-  return $post(`${config.apiUrl}/users/register`, user);
+  return $post(api.url + "/users/register", user);
 }
 
 function update(user: User): any {
   // $FlowFixMe: suppressing this error until we can refactor
-  return $put(`${config.apiUrl}/users/${user.id}`, user);
+  return $put(api.url + `/users/${user.id}`, user);
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id: number): any {
   // $FlowFixMe: suppressing this error until we can refactor
-  return $delete(`${config.apiUrl}/users/${id}`);
+  return $delete(api.url + `/users/${id}`);
 }

@@ -1,4 +1,4 @@
-// import * as $ from 'jquery';
+// import * as $ from "jquery";
 // import Cookies from 'universal-cookie';
 
 export function initFetch() {
@@ -7,8 +7,10 @@ export function initFetch() {
     if (response.ok) {
       return response;
     } else if (response.status === 401) {
-      localStorage.removeItem("user");
-      // location.push("/");
+      localStorage.removeItem('user');
+      return Promise.reject('Not Authorized');
+    } else if (response.status === 500) {
+      return Promise.reject('Unable to Process request. Please contact adminstrator.');
     } else {
       var data = response.data;
       const error = (data && data.message) || response.statusText;
@@ -18,7 +20,7 @@ export function initFetch() {
 
   function headers(options) {
     options = options || {};
-    options.method = options.method || "GET";
+    options.method = options.method || 'GET';
     options.headers = options.headers || {};
     return options;
   }
@@ -26,7 +28,7 @@ export function initFetch() {
   function credentials(options) {
     options = options || {};
     if (options.credentials == null) {
-      options.credentials = "include";
+      options.credentials = 'include';
     }
     return options;
   }
@@ -53,7 +55,7 @@ export function initFetch() {
 
   window.$getJSON = function(url, options) {
     options = headers(credentials(options));
-    options.headers["Accept"] = "application/json";
+    options.headers['Accept'] = 'application/json';
     return realFetch(url, options)
       .then(status)
       .then(json);
@@ -61,23 +63,23 @@ export function initFetch() {
 
   window.$post = function(url, body) {
     const options = headers(credentials());
-    options.method = "POST";
-    options.headers["Content-Type"] = "application/json";
+    options.method = 'POST';
+    options.headers['Content-Type'] = 'application/json';
     options.body = JSON.stringify(body);
     return realFetch(url, options).then(status);
   };
 
   window.$put = function(url, body) {
     const options = headers(credentials());
-    options.method = "PUT";
-    options.headers["Content-Type"] = "application/json";
+    options.method = 'PUT';
+    options.headers['Content-Type'] = 'application/json';
     options.body = JSON.stringify(body);
     return realFetch(url, options).then(status);
   };
 
   window.$delete = function(url, options) {
     options = headers(credentials(options));
-    options.method = "DELETE";
+    options.method = 'DELETE';
     return realFetch(url, options).then(status);
   };
 

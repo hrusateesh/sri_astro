@@ -1,18 +1,19 @@
 // @flow
-import React from "react";
-import { connect } from "react-redux";
-import type { Dispatch } from "../types/Store";
-import type { User } from "../types/Custom";
+import React from 'react';
+import {connect} from 'react-redux';
+import type {Dispatch} from '../types/Store';
+import type {User} from '../types/Custom';
 
-import { userActions } from "../_actions";
-import "./Login.scss";
+import {userActions} from '../_actions';
+import './Login.scss';
 
-import $ from "jquery";
+import $ from 'jquery';
 
 type Props = {
   dispatch: Dispatch,
   user: User,
-  loggingIn: boolean
+  loggingIn: boolean,
+  error: string
 };
 
 type State = {
@@ -26,19 +27,21 @@ type State = {
   loggingIn: boolean
 };
 
+const initialState = {
+  username: '',
+  password: '',
+  remember_me: false,
+  submitted: false,
+  keepLogIn: false,
+  forgetPass: false,
+  submitBtnTxt: 'Login',
+  loggingIn: false
+};
+
 class Login extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      username: "",
-      password: "",
-      remember_me: false,
-      submitted: false,
-      keepLogIn: false,
-      forgetPass: false,
-      submitBtnTxt: "Login",
-      loggingIn: false
-    };
+    this.state = initialState;
     // this.baseState = this.state;
   }
 
@@ -46,30 +49,38 @@ class Login extends React.Component<Props, State> {
 
   componentDidMount() {
     const self = this;
-    $("#loginLink").click(function() {
+    $('#loginLink').click(function() {
       if (
         !$(this)
           .next()
-          .hasClass("show")
+          .hasClass('show')
       ) {
-        self.setState(self.baseState);
+        self.setState(initialState);
       }
     });
   }
   handleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const target = e.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    this.setState({ [target.name]: value });
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    this.setState({[target.name]: value});
   };
 
-  handleSubmit = () => {
-    // e.preventDefault();
-    this.setState({ submitted: true });
-    const { username, password, remember_me, forgetPass } = this.state;
-    const { dispatch } = this.props;
+  handleSubmit = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    this.setState({submitted: true});
+    const {username, password, remember_me, forgetPass} = this.state;
+    const {dispatch} = this.props;
     if (!forgetPass) {
+      let form = e.currentTarget;
+      if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
       if (username && password) {
         dispatch(userActions.login(username, password, remember_me));
+        this.setState(initialState);
+        form.classList.remove('was-validated');
       }
     } else if (username) {
       // dispatch(userActions.forgetPass(username));
@@ -79,7 +90,7 @@ class Login extends React.Component<Props, State> {
   forgetPassword = () => {
     this.setState({
       forgetPass: true,
-      submitBtnTxt: "Continue"
+      submitBtnTxt: 'Continue'
     });
     // this.setState(prevState => ({
     //     forgetPass: !prevState.forgetPass,
@@ -89,15 +100,8 @@ class Login extends React.Component<Props, State> {
   };
 
   render() {
-    const { loggingIn } = this.props;
-    const {
-      username,
-      password,
-      remember_me,
-      submitBtnTxt,
-      submitted,
-      forgetPass
-    } = this.state;
+    const {loggingIn, error} = this.props;
+    const {username, password, remember_me, submitBtnTxt, submitted, forgetPass} = this.state;
     return (
       <React.Fragment>
         <a
@@ -115,53 +119,39 @@ class Login extends React.Component<Props, State> {
               Login via
               <SocialLogin />
               <p className="text-center">or</p>
-              <form className="form" role="form" onSubmit={this.handleSubmit}>
-                <div
-                  className={
-                    "form-group" + (submitted && !username ? " has-error" : "")
-                  }
-                >
+              <form className="form needs-validation" noValidate role="form" onSubmit={this.handleSubmit}>
+                <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
                   <label className="sr-only" htmlFor="username">
                     Email address
                   </label>
                   <input
                     type="email"
                     className="form-control"
-                    id="username"
                     name="username"
                     value={username}
                     onChange={this.handleChange}
                     placeholder="Email address"
                     required
                   />
-                  {submitted && !username && (
-                    <div className="help-block">Username is required</div>
-                  )}
+                  {submitted && !username && <div className="invalid-feedback">Username is required</div>}
                 </div>
                 {!forgetPass && (
                   <React.Fragment>
-                    <div
-                      className={
-                        "form-group" +
-                        (submitted && !password ? " has-error" : "")
-                      }
-                    >
+                    <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
                       <label className="sr-only" htmlFor="password">
                         Password
                       </label>
                       <input
                         type="password"
                         className="form-control"
-                        id="password"
                         name="password"
                         value={password}
                         onChange={this.handleChange}
                         placeholder="Password"
                         required
                       />
-                      {submitted && !password && (
-                        <div className="help-block">Password is required</div>
-                      )}
+                      {submitted && !password && <div className="invalid-feedback">Password is required</div>}
+                      {error && <div className="invalid-feedback d-block font-weight-bold text-center">{error}</div>}
                     </div>
                     <div className="help-block text-right">
                       <a href="#" onClick={this.forgetPassword}>
@@ -170,12 +160,7 @@ class Login extends React.Component<Props, State> {
                     </div>
                     <div className="checkbox">
                       <label>
-                        <input
-                          type="checkbox"
-                          name="remember_me"
-                          value={remember_me}
-                          onChange={this.handleChange}
-                        />{" "}
+                        <input type="checkbox" name="remember_me" value={remember_me} onChange={this.handleChange} />{' '}
                         keep me logged-in
                       </label>
                     </div>
@@ -184,15 +169,13 @@ class Login extends React.Component<Props, State> {
                 <div className="form-group my-2">
                   <button className="btn btn-primary btn-block">
                     <span>{submitBtnTxt}</span>
-                    {loggingIn && (
-                      <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                    )}
+                    {loggingIn && <i className="fas fa-sync-alt fa-spin ml-2" />}
                   </button>
                 </div>
               </form>
             </div>
             <div className="bottom text-center">
-              New here?{" "}
+              New here?{' '}
               <a href="/register" className="btn btn-primary p-2">
                 <b>Join Us</b>
               </a>
@@ -221,11 +204,12 @@ const SocialLogin = () => {
 };
 
 const mapStateToProps = (state: State) => {
-  const { loggingIn } = state;
+  const {loggingIn, error} = state.authentication;
   return {
-    loggingIn
+    loggingIn,
+    error
   };
 };
 
 const connectedLogin = connect(mapStateToProps)(Login);
-export { connectedLogin as Login };
+export {connectedLogin as Login};
