@@ -86,19 +86,6 @@ a.sa-logo:active {
   position: fixed;
 }
 
-@media only screen and (max-width: 1440px) {
-  .side-nav.fixed {
-    -webkit-transform: translateX(-105%);
-    -ms-transform: translateX(-105%);
-    transform: translateX(-105%);
-  }
-  .side-nav.fixed.right-aligned {
-    -webkit-transform: translateX(105%);
-    -ms-transform: translateX(105%);
-    transform: translateX(105%);
-  }
-}
-
 .side-nav .collapsible {
   margin: 1rem 0 0;
   padding: 0;
@@ -183,12 +170,6 @@ a.sa-logo:active {
   padding-right: 20px;
 
   margin-bottom: 0;
-}
-
-@media (max-width: 1440px) {
-  .logo-sn p {
-    margin-top: -20px;
-  }
 }
 
 .side-nav .fa-angle-down.rotate-icon {
