@@ -5,7 +5,7 @@ import type {Dispatch} from '../types/Store';
 import {CollapsableMenu} from './CollapsableMenu';
 import {userActions} from '../_actions';
 
-import './SideBar.scss';
+// import './SideBar.scss';
 
 type Props = {
   dispatch: Dispatch
