@@ -34,6 +34,6 @@ module.exports = {
     new CopyWebpackPlugin([{from: 'static'}])
   ],
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx', '.scss']
   }
 };
