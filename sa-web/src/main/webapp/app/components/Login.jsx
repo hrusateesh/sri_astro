@@ -72,10 +72,7 @@ class Login extends React.Component<Props, State> {
     const {dispatch} = this.props;
     if (!forgetPass) {
       let form = e.currentTarget;
-      if (form.checkValidity() === false) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
+      form.checkValidity();
       form.classList.add('was-validated');
       if (username && password) {
         dispatch(userActions.login(username, password, remember_me));
@@ -105,78 +102,78 @@ class Login extends React.Component<Props, State> {
     return (
       <React.Fragment>
         <a
-          href="#"
-          className="btn btn-info btn-rounded btn-sm waves-effect waves-light"
-          id="loginLink"
-          data-toggle="dropdown"
+          href='#'
+          className='btn btn-info btn-rounded btn-sm waves-effect waves-light'
+          id='loginLink'
+          data-toggle='dropdown'
         >
           <b>Login</b>
-          <i className="fas fa-sign-in-alt ml-2" />
+          <i className='fas fa-sign-in-alt ml-2' />
         </a>
-        <div className="dropdown-menu dropdown-menu-right">
-          <div id="login-dp" className="container">
+        <div className='dropdown-menu dropdown-menu-right'>
+          <div id='login-dp' className='container'>
             <div>
               Login via
               <SocialLogin />
-              <p className="text-center">or</p>
-              <form className="form needs-validation" noValidate role="form" onSubmit={this.handleSubmit}>
+              <p className='text-center'>or</p>
+              <form className='form needs-validation' noValidate role='form' onSubmit={this.handleSubmit}>
                 <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
-                  <label className="sr-only" htmlFor="username">
+                  <label className='sr-only' htmlFor='username'>
                     Email address
                   </label>
                   <input
-                    type="email"
-                    className="form-control"
-                    name="username"
+                    type='email'
+                    className='form-control'
+                    name='username'
                     value={username}
                     onChange={this.handleChange}
-                    placeholder="Email address"
+                    placeholder='Email address'
                     required
                   />
-                  {submitted && !username && <div className="invalid-feedback">Username is required</div>}
+                  {submitted && !username && <div className='invalid-feedback'>Username is required</div>}
                 </div>
                 {!forgetPass && (
                   <React.Fragment>
                     <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
-                      <label className="sr-only" htmlFor="password">
+                      <label className='sr-only' htmlFor='password'>
                         Password
                       </label>
                       <input
-                        type="password"
-                        className="form-control"
-                        name="password"
+                        type='password'
+                        className='form-control'
+                        name='password'
                         value={password}
                         onChange={this.handleChange}
-                        placeholder="Password"
+                        placeholder='Password'
                         required
                       />
-                      {submitted && !password && <div className="invalid-feedback">Password is required</div>}
-                      {error && <div className="invalid-feedback d-block font-weight-bold text-center">{error}</div>}
+                      {submitted && !password && <div className='invalid-feedback'>Password is required</div>}
+                      {error && <div className='invalid-feedback d-block font-weight-bold text-center'>{error}</div>}
                     </div>
-                    <div className="help-block text-right">
-                      <a href="#" onClick={this.forgetPassword}>
+                    <div className='help-block text-right'>
+                      <a href='#' onClick={this.forgetPassword}>
                         Forget the password?
                       </a>
                     </div>
-                    <div className="checkbox">
+                    <div className='checkbox'>
                       <label>
-                        <input type="checkbox" name="remember_me" value={remember_me} onChange={this.handleChange} />{' '}
+                        <input type='checkbox' name='remember_me' value={remember_me} onChange={this.handleChange} />{' '}
                         keep me logged-in
                       </label>
                     </div>
                   </React.Fragment>
                 )}
-                <div className="form-group my-2">
-                  <button className="btn btn-primary btn-block">
+                <div className='form-group my-2'>
+                  <button className='btn btn-primary btn-block'>
                     <span>{submitBtnTxt}</span>
-                    {loggingIn && <i className="fas fa-sync-alt fa-spin ml-2" />}
+                    {loggingIn && <i className='fas fa-sync-alt fa-spin ml-2' />}
                   </button>
                 </div>
               </form>
             </div>
-            <div className="bottom text-center">
+            <div className='bottom text-center'>
               New here?{' '}
-              <a href="/register" className="btn btn-primary p-2">
+              <a href='/register' className='btn btn-primary p-2'>
                 <b>Join Us</b>
               </a>
             </div>
@@ -189,21 +186,28 @@ class Login extends React.Component<Props, State> {
 
 const SocialLogin = () => {
   return (
-    <div className="social-buttons d-flex justify-content-between">
-      <a href="#" className="btn btn-danger">
-        <i className="fab fa-google-plus" /> Google
+    <div className='social-buttons d-flex justify-content-between'>
+      <a href='#' className='btn btn-danger'>
+        <i className='fab fa-google-plus' /> Google
       </a>
-      <a href="#" className="btn btn-fb">
-        <i className="fab fa-facebook" /> Facebook
+      <a href='#' className='btn btn-fb'>
+        <i className='fab fa-facebook' /> Facebook
       </a>
-      <a href="#" className="btn btn-tw">
-        <i className="fab fa-twitter" /> Twitter
+      <a href='#' className='btn btn-tw'>
+        <i className='fab fa-twitter' /> Twitter
       </a>
     </div>
   );
 };
 
-const mapStateToProps = (state: State) => {
+type StoreState = {
+  authentication: {
+    loggingIn: boolean,
+    error: string
+  }
+};
+
+const mapStateToProps = (state: StoreState) => {
   const {loggingIn, error} = state.authentication;
   return {
     loggingIn,

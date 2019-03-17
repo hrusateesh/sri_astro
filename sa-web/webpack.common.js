@@ -7,7 +7,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   context: path.join(__dirname, 'src/main/webapp'),
   entry: './app/main.js',
-  stats: 'errors-only',
   module: {
     rules: [
       {test: /\.(js|jsx)$/, use: ['babel-loader', 'eslint-loader']},
