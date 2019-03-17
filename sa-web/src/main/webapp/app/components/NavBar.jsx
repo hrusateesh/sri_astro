@@ -1,13 +1,13 @@
 // @flow
-import React from "react";
-import { connect } from "react-redux";
-import type { Dispatch } from "../types/Store";
-import type { User } from "../types/Custom";
+import React from 'react';
+import {connect} from 'react-redux';
+import type {Dispatch} from '../types/Store';
+import type {User} from '../types/Custom';
 
-import { Login } from "./Login";
-import { userActions } from "../_actions";
+import {Login} from './Login';
+import {userActions} from '../_actions';
 
-import "./NavBar.scss";
+import './NavBar.scss';
 
 type Props = {
   dispatch: Dispatch,
@@ -33,11 +33,11 @@ class NavBar extends React.Component<Props, State> {
   handleLogoutUser = () => this.props.dispatch(userActions.logout());
 
   componentDidMount() {
-    window.addEventListener("scroll", this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
   handleScroll = () => {
@@ -47,120 +47,98 @@ class NavBar extends React.Component<Props, State> {
   };
 
   render() {
-    const { user } = this.props;
+    const {user} = this.props;
     return (
       <nav
         className={
-          "navbar fixed-top navbar-expand-lg scrolling-navbar double-nav " +
-          (this.state.scrolled ? "top-nav-collapse" : "")
+          'navbar fixed-top navbar-expand-lg scrolling-navbar double-nav ' +
+          (this.state.scrolled ? 'top-nav-collapse' : '')
         }
       >
-        <div className="float-left">
+        <div className='float-left'>
           <a
-            href="#"
-            data-activates="slide-out"
-            className="button-collapse black-text"
-            data-toggle="collapse"
-            data-target="#slide-out"
-            aria-controls="slide-out"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+            href='#'
+            data-activates='slide-out'
+            className='button-collapse black-text'
+            data-toggle='collapse'
+            data-target='#slide-out'
+            aria-controls='slide-out'
+            aria-expanded='false'
+            aria-label='Toggle navigation'
           >
-            <i className="fa fa-bars" />
+            <i className='fa fa-bars' />
           </a>
         </div>
-        <div className="breadcrumb-dn mr-auto">
+        <div className='breadcrumb-dn mr-auto'>
           <p>Dashboard v.1</p>
         </div>
-        <ul className="nav navbar-nav nav-flex-icons ml-auto">
-          <li className="nav-item dropdown  dropdown-menu-right notifications-nav">
+        <ul className='nav navbar-nav nav-flex-icons ml-auto'>
+          <li className='nav-item dropdown  dropdown-menu-right notifications-nav'>
             <a
-              className="nav-link dropdown-toggle waves-effect"
-              id="navbarDropdownMenuLink"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
+              className='nav-link dropdown-toggle waves-effect'
+              id='navbarDropdownMenuLink'
+              data-toggle='dropdown'
+              aria-haspopup='true'
+              aria-expanded='false'
             >
-              <span className="badge red">3</span> <i className="fa fa-bell" />
-              <span className="sr-only">Notifications</span>
+              <span className='badge red'>3</span> <i className='fa fa-bell' />
+              <span className='sr-only'>Notifications</span>
             </a>
-            <div
-              className="dropdown-menu dropdown-primary"
-              aria-labelledby="navbarDropdownMenuLink"
-            >
-              <a className="dropdown-item waves-effect waves-light" href="#">
-                <i className="fa fa-money mr-2" aria-hidden="true" />
+            <div className='dropdown-menu dropdown-primary' aria-labelledby='navbarDropdownMenuLink'>
+              <a className='dropdown-item waves-effect waves-light' href='#'>
+                <i className='fa fa-money mr-2' aria-hidden='true' />
                 <span>New order received</span>
-                <span className="float-right">
-                  <i className="far  fa-clock" aria-hidden="true" /> 13 min
+                <span className='float-right'>
+                  <i className='far  fa-clock' aria-hidden='true' /> 13 min
                 </span>
               </a>
-              <a className="dropdown-item waves-effect waves-light" href="#">
-                <i className="fa fa-money mr-2" aria-hidden="true" />
+              <a className='dropdown-item waves-effect waves-light' href='#'>
+                <i className='fa fa-money mr-2' aria-hidden='true' />
                 <span>New order received</span>
-                <span className="float-right">
-                  <i className="far  fa-clock" aria-hidden="true" /> 33 min
+                <span className='float-right'>
+                  <i className='far  fa-clock' aria-hidden='true' /> 33 min
                 </span>
               </a>
-              <a className="dropdown-item waves-effect waves-light" href="#">
-                <i className="fa fa-line-chart mr-2" aria-hidden="true" />
+              <a className='dropdown-item waves-effect waves-light' href='#'>
+                <i className='fa fa-line-chart mr-2' aria-hidden='true' />
                 <span>Your campaign is about to end</span>
-                <span className="float-right">
-                  <i className="far  fa-clock" aria-hidden="true" /> 53 min
+                <span className='float-right'>
+                  <i className='far  fa-clock' aria-hidden='true' /> 53 min
                 </span>
               </a>
             </div>
           </li>
-          <li className="nav-item">
-            <a
-              href="/contact"
-              data-toggle="modal"
-              data-target="#contactForm"
-              className="nav-link waves-effect"
-            >
-              <i
-                id="navbar-static-contact"
-                alt="Contact us"
-                className="fas fa-envelope"
-              />
-              <span className="sr-only">Contact us</span>
+          <li className='nav-item'>
+            <a href='/contact' data-toggle='modal' data-target='#contactForm' className='nav-link waves-effect'>
+              <i id='navbar-static-contact' alt='Contact us' className='fas fa-envelope' />
+              <span className='sr-only'>Contact us</span>
             </a>
           </li>
           {user && (
-            <li className="nav-item dropdown">
+            <li className='nav-item dropdown'>
               <a
-                className="nav-link dropdown-toggle waves-effect"
-                href="#"
-                id="userDropdown"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
+                className='nav-link dropdown-toggle waves-effect'
+                href='#'
+                id='userDropdown'
+                data-toggle='dropdown'
+                aria-haspopup='true'
+                aria-expanded='false'
               >
-                <i className="fa fa-user" />{" "}
-                <span className="clearfix d-none d-sm-inline-block">
-                  {user.firstName}
-                </span>
+                <i className='fa fa-user' /> <span className='clearfix d-none d-sm-inline-block'>{user.firstName}</span>
               </a>
 
-              <div
-                className="dropdown-menu dropdown-menu-right"
-                aria-labelledby="userDropdown"
-              >
-                <a
-                  className="dropdown-item waves-effect waves-light"
-                  href="#"
-                  onClick={this.handleLogoutUser}
-                >
+              <div className='dropdown-menu dropdown-menu-right' aria-labelledby='userDropdown'>
+                <a className='dropdown-item waves-effect waves-light' href='#' onClick={this.handleLogoutUser}>
                   Log Out
                 </a>
-                <a className="dropdown-item waves-effect waves-light" href="#">
+                <a className='dropdown-item waves-effect waves-light' href='#'>
                   My account
                 </a>
               </div>
             </li>
           )}
           {!user && (
-            <li className="nav-item dropdown">
+            <li className='nav-item dropdown'>
               <Login />
             </li>
           )}
@@ -171,12 +149,12 @@ class NavBar extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: State) => {
-  const { authentication } = state;
-  const { user } = authentication;
+  const {authentication} = state;
+  const {user} = authentication;
   return {
     user
   };
 };
 
 const connectedNavBar = connect(mapStateToProps)(NavBar);
-export { connectedNavBar as NavBar };
+export {connectedNavBar as NavBar};
