@@ -1,5 +1,6 @@
 .gradle
 .history
+src/main/resources/static
 node_modules
 build
 bin
