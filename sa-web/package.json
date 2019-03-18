@@ -8,8 +8,8 @@
   "main": "app/main.js",
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
-    "build-dev": "webpack --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js --progress --debug --stacktrace",
+    "build-dev": "webpack --config webpack.dev.js --progress",
+    "build": "webpack --config webpack.prod.js --progress",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "flow": "flow"
@@ -45,6 +45,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
+    "case-sensitive-paths-webpack-plugin": "^2.2.0",
     "clean-webpack-plugin": "^2.0.1",
     "copy-webpack-plugin": "^5.0.1",
     "css-loader": "^2.1.1",
