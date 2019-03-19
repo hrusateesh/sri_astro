@@ -1,23 +1,23 @@
 // @flow
-import React from "react";
-import { Router, Route, Switch } from "react-router-dom";
-import { connect } from "react-redux";
-import ReduxToastr from "react-redux-toastr";
-import { toastr } from "react-redux-toastr";
+import React from 'react';
+import {Router, Route, Switch} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-import type { Dispatch } from "redux";
-import type { Action } from "../types/Action";
-import type { Alert } from "../types/Custom";
+import type {Dispatch} from 'redux';
+import type {Action} from '../types/Action';
+import type {Alert} from '../types/Custom';
 
-import { history } from "../_helpers";
-import { alertActions } from "../_actions";
-import { NavBar, SideBar, Footer } from "../components";
+import {history} from '../_helpers';
+import {alertActions} from '../_actions';
+import {NavBar, SideBar, SidebarMenu, SidebarItem, Footer} from '../components';
+import PerfectScrollbar from 'perfect-scrollbar';
 
-import { Home } from "../components/Home";
-import { NotFound } from "../components/NotFound";
-import { Register } from "../components/Register";
-import * as Waves from "node-waves";
-import "./App.scss";
+import {Home} from '../components/Home';
+import {NotFound} from '../components/NotFound';
+import {Register} from '../components/Register';
+import * as Waves from 'node-waves';
+import 'perfect-scrollbar/css/perfect-scrollbar.css';
+import './App.scss';
 
 type Props = {
   dispatch: Dispatch<Action>,
@@ -28,7 +28,26 @@ class App extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
 
-    const { dispatch } = this.props;
+    this.state = {
+      gists: [
+        {
+          icon: 'fa fa-tachometer-alt',
+          desc: 'Dashboards',
+          children: [{link: '/', desc: 'Home'}, {link: '../dash/dash02.html', desc: 'Version 2'}]
+        },
+        {
+          icon: 'fas fa-user-tie',
+          desc: 'User',
+          children: [
+            {link: '../pages/login.html', desc: 'Login'},
+            {link: '/register', icon: 'fa fa-bolt', desc: 'Register'}
+          ]
+        },
+        {link: '/g/12345', icon: 'far fa-bell', desc: 'Alerts'}
+      ]
+    };
+
+    const {dispatch} = this.props;
     history.listen(() => {
       // clear alert on location change
       dispatch(alertActions.clear());
@@ -37,87 +56,65 @@ class App extends React.Component<Props> {
 
   /* eslint-disable no-undef */
   componentDidMount() {
-    Waves.attach(".button", ["waves-button", "waves-float"]);
+    new PerfectScrollbar('#root');
+    Waves.attach('.button', ['waves-button', 'waves-float']);
     Waves.init();
   }
 
   render() {
-    const { alert } = this.props;
+    const {alert} = this.props;
+    const {gists} = this.state;
     return (
-      <div>
-        <ReduxToastr
-          timeOut={4000}
-          preventDuplicates
-          position="top-right"
-          transitionIn="fadeIn"
-          transitionOut="fadeOut"
-          progressBar
-          closeOnToastrClick
-        />
-        {alert.message && (
-          <div className={`alert ${alert.type}`}>{alert.message}</div>
-        )}
-        {alert.message && (
-          <div className="header">
-            <div className="logo_container">
-              <div className="col-md-4">
-                <div className="row">
-                  <div className="view col-2">
-                    <div className="plane main">
-                      <div className="circle" />
-                      <div className="circle" />
-                      <div className="circle" />
-                      <div className="circle" />
-                      <div className="circle" />
-                      <div className="circle" />
-                    </div>
-                  </div>
-                  <div className="col-5">
-                    <a href="/" className="sa-logo">
-                      <span className="sri">Sri</span>
-                      <span className="smText">&#9672;</span>Astrology
-                    </a>
-                    <p className="smText text-right">Past. Present. Future.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="clear" />
-          </div>
-        )}
-        <header>
-          <SideBar />
-          <NavBar />
-        </header>
-        <main>
-          <div>
-            <button
-              onClick={() => toastr.success("The title", "The message")}
-              type="button"
-            >
-              Toastr Success
-            </button>
-          </div>
-          <Router history={history}>
+      <Router history={history}>
+        <React.Fragment>
+          {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+          <header>
+            <SideBar>
+              {gists ? (
+                gists.map((gist: any) => {
+                  return gist.children ? (
+                    <SidebarMenu key={gist.desc} icon={gist.icon} desc={gist.desc}>
+                      {gist.children.map((subGist: any) => {
+                        return (
+                          <SidebarItem key={subGist.link} icon={subGist.icon} link={subGist.link} desc={subGist.desc} />
+                        );
+                      })}
+                    </SidebarMenu>
+                  ) : (
+                    <SidebarItem key={gist.link} link={gist.link} icon={gist.icon} desc={gist.desc} />
+                  );
+                })
+              ) : (
+                <div>Loading ... </div>
+              )}
+            </SideBar>
+            <NavBar />
+          </header>
+          <main>
             <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/register" component={Register} />
+              <Route exact path='/' component={Home} />
+              <Route path='/register' component={Register} />
+              <Route path='/g/:gistId' component={Gist} />
               <Route component={NotFound} />
             </Switch>
-          </Router>
-        </main>
-        <Footer />
-      </div>
+          </main>
+          <Footer />
+        </React.Fragment>
+      </Router>
     );
   }
 }
 
+const Gist = (props: any) => {
+  return <div>{props.match.params.gistId}</div>;
+};
+
 const mapStateToProps = (state: any) => {
-  const { alert } = state;
+  const {alert} = state;
   return {
     alert
   };
 };
 
 const connectedApp = connect(mapStateToProps)(App);
-export { connectedApp as App };
+export {connectedApp as App};

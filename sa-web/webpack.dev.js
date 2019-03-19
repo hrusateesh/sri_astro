@@ -1,31 +1,31 @@
 /* eslint-disable */
-const webpack = require("webpack");
-const merge = require("webpack-merge");
-const path = require("path");
-const common = require("./webpack.common.js");
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const path = require('path');
+const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
-  mode: "development",
-  devtool: "inline-source-map",
+  mode: 'development',
+  devtool: 'inline-source-map',
   devServer: {
     historyApiFallback: true,
-    contentBase: "./dist",
+    contentBase: './dist',
     port: 3001
   },
   module: {
     rules: [
       {
         test: /\.(sa|sc|c)ss$/,
-        use: ["style-loader", "css-loader", "sass-loader"]
+        use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/i,
         use: [
           {
-            loader: "file-loader",
+            loader: 'file-loader',
             options: {
-              name: "[name].[ext]",
-              outputPath: "fonts/"
+              name: '[name].[ext]',
+              outputPath: 'fonts/'
             }
           }
         ]
@@ -33,8 +33,9 @@ module.exports = merge(common, {
     ]
   },
   output: {
-    path: path.join(__dirname, "/src/main/resources/static"),
-    filename: "js/main.bundle.js"
+    path: path.join(__dirname, '/src/main/resources/static'),
+    filename: 'js/main.bundle.js',
+    publicPath: '/'
   },
   plugins: [
     new webpack.DefinePlugin({

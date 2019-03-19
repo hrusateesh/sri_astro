@@ -1,109 +1,117 @@
 // @flow
 import React from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import PerfectScrollbar from 'perfect-scrollbar';
 import type {Dispatch} from '../types/Store';
-import {CollapsableMenu} from './CollapsableMenu';
 import {userActions} from '../_actions';
 
 import './SideBar.scss';
 
 type Props = {
-  dispatch: Dispatch
+  dispatch: Dispatch,
+  children: Component
 };
 
 class SideBar extends React.Component<Props> {
   handleLogoutUser = () => this.props.dispatch(userActions.logout());
 
+  componentDidMount() {
+    new PerfectScrollbar('#slide-out');
+  }
+
   render() {
     return (
       <div id='slide-out' className='side-nav sn-bg-4 fixed'>
-        <ul className='custom-scrollbar ps ps--theme_default'>
-          <li className='logo-sn waves-effect'>
-            <div className='text-center'>
-              <a
-                href='#'
-                data-activates='slide-out'
-                className='button-collapse black-text'
-                data-toggle='collapse'
-                data-target='#slide-out'
-                aria-controls='slide-out'
-                aria-expanded='false'
-                aria-label='Toggle navigation'
-              >
-                <i className='fa fa-bars' />
-              </a>
-              <a href='/' className='sa-logo'>
-                <span className='sri'>Sri</span>
-                <span className='smText'>&#9672;</span>Astrology
-              </a>
-              <p className='smText text-right'>Past. Present. Future.</p>
-            </div>
+        <ul>
+          <li>
+            <SideBarLogo />
           </li>
           <li>
-            <ul className='collapsible collapsible-accordion'>
-              <CollapsableMenu
-                title='Dashboards'
-                icon='fa-tachometer-alt'
-                items={{
-                  'Version 1': '#',
-                  'Version 2': '#',
-                  'Version 3': '#',
-                  'Version 4': '#'
-                }}
-              />
-              <CollapsableMenu
-                title='Pages'
-                icon='fa-image'
-                items={{
-                  Login: '#',
-                  Register: '#',
-                  'Version 2': '#',
-                  Pricing: '#',
-                  'About us': '#'
-                }}
-              />
-              <CollapsableMenu title='Forms' icon='fa-check-square' items={{Basic: '#', Extended: '#'}} />
-              <li>
-                <a href='../alerts/alerts.html' className='collapsible-header waves-effect'>
-                  <i className=' far fa-bell' />
-                  Alerts
-                </a>
-              </li>
-              <li>
-                <a href='../modals/modals.html' className='collapsible-header waves-effect'>
-                  <i className=' fa fa-bolt' />
-                  Modals
-                </a>
-              </li>
-              <li>
-                <a href='../charts/charts.html' className='collapsible-header waves-effect'>
-                  <i className=' fa fa-chart-pie' />
-                  Charts
-                </a>
-              </li>
-              <li>
-                <a href='../calendar/calendar.html' className='collapsible-header waves-effect'>
-                  <i className=' far fa-calendar-check' />
-                  Calendar
-                </a>
-              </li>
-            </ul>
+            <ul className='collapsible collapsible-accordion'>{this.props.children}</ul>
           </li>
-          <div className='ps__scrollbar-x-rail' style={{left: '0px', bottom: '0px'}}>
-            <div className='ps__scrollbar-x' tabIndex='0' style={{left: '0px', width: '0px'}} />
-          </div>
-          <div className='ps__scrollbar-y-rail' style={{top: '0px', right: '0px'}}>
-            <div className='ps__scrollbar-y' tabIndex='0' style={{top: '0px', height: '0px'}} />
-          </div>
         </ul>
-        <div className='sidenav-bg mask-strong' />
       </div>
     );
   }
 }
 
+const SideBarLogo = () => (
+  <div className='logo-sn text-center'>
+    <a
+      href='#'
+      data-activates='slide-out'
+      className='button-collapse black-text'
+      data-toggle='collapse'
+      data-target='#slide-out'
+      aria-controls='slide-out'
+      aria-expanded='false'
+      aria-label='Toggle navigation'
+    >
+      <i className='fa fa-bars' />
+    </a>
+    <a href='/' className='sa-logo'>
+      <span className='sri'>Sri</span>
+      <span className='smText'>&#9672;</span>Astrology
+    </a>
+    <p className='smText text-right'>Past. Present. Future.</p>
+  </div>
+);
+
+type MenuProps = {
+  children: any,
+  icon: string,
+  desc: string
+};
+class SidebarMenu extends React.Component<MenuProps, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      checked: false
+    };
+  }
+
+  handleClick = () => {
+    this.setState({
+      checked: !this.state.checked
+    });
+  };
+
+  render() {
+    return (
+      <li>
+        <a className='collapsible-header waves-effect arrow-r' onClick={this.handleClick}>
+          <i className={this.props.icon} />
+          {this.props.desc}
+          <i className='fa fa-angle-down rotate-icon' />
+        </a>
+        <div className='collapsible-body' style={{display: this.state.checked ? 'block' : 'none'}}>
+          <ul>
+            {React.Children.map(this.props.children, (child: any) => React.cloneElement(child, {subMenuItem: true}))}
+          </ul>
+        </div>
+      </li>
+    );
+  }
+}
+
+type ItemProps = {
+  link: string,
+  icon: string,
+  desc: string,
+  subMenuItem: boolean
+};
+const SidebarItem = (props: ItemProps) => (
+  <li>
+    <Link to={props.link} className={'waves-effect' + (props.subMenuItem ? '' : ' collapsible-header')}>
+      {props.icon ? <i className={props.icon} /> : <i className='fas fa-info-circle' />}
+      {props.desc}
+    </Link>
+  </li>
+);
+
 const mapStateToProps = () => {
   return {};
 };
 const connectedSideBar = connect(mapStateToProps)(SideBar);
-export {connectedSideBar as SideBar};
+export {connectedSideBar as SideBar, SidebarMenu, SidebarItem};
