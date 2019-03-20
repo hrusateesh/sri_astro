@@ -15,7 +15,9 @@ tasks.getByName<Jar>("bootJar") {
 
 dependencies {
     implementation(project(":sa-common"))
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("com.fasterxml.jackson.core:jackson-annotations")
+    implementation("javax.validation:validation-api")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.postgresql:postgresql")

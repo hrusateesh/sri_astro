@@ -1,21 +1,22 @@
 // @flow
 import React from 'react';
-import {Router, Route, Switch} from 'react-router-dom';
-import {connect} from 'react-redux';
-
-import type {Dispatch} from 'redux';
-import type {Action} from '../types/Action';
-import type {Alert} from '../types/Custom';
-
-import {history} from '../_helpers';
-import {alertActions} from '../_actions';
-import {NavBar, SideBar, SidebarMenu, SidebarItem, Footer} from '../components';
+import { Router, Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import type { Dispatch } from 'redux';
 import PerfectScrollbar from 'perfect-scrollbar';
-
-import {Home} from '../components/Home';
-import {NotFound} from '../components/NotFound';
-import {Register} from '../components/Register';
 import * as Waves from 'node-waves';
+
+import type { Action } from '../types/Action';
+import type { Alert } from '../types/Custom';
+
+import { history } from '../_helpers';
+import { alertActions } from '../_actions';
+import { NavBar, SideBar, SidebarMenu, SidebarItem, Footer } from '../components';
+
+import { Home } from '../components/Home';
+import { NotFound } from '../components/NotFound';
+import { Register } from '../components/Register';
+
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 import './App.scss';
 
@@ -23,8 +24,18 @@ type Props = {
   dispatch: Dispatch<Action>,
   alert: Alert
 };
+type GistType = {
+  icon?: string,
+  desc: string,
+  children?: Array<GistType>,
+  link?: string
+};
 
-class App extends React.Component<Props> {
+type State = {
+  gists: Array<GistType>
+};
+
+class App extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
@@ -33,21 +44,21 @@ class App extends React.Component<Props> {
         {
           icon: 'fa fa-tachometer-alt',
           desc: 'Dashboards',
-          children: [{link: '/', desc: 'Home'}, {link: '../dash/dash02.html', desc: 'Version 2'}]
+          children: [{ link: '/', desc: 'Home' }, { link: '../dash/dash02.html', desc: 'Version 2' }]
         },
         {
           icon: 'fas fa-user-tie',
           desc: 'User',
           children: [
-            {link: '../pages/login.html', desc: 'Login'},
-            {link: '/register', icon: 'fa fa-bolt', desc: 'Register'}
+            { link: '../pages/login.html', desc: 'Login' },
+            { link: '/register', icon: 'fa fa-bolt', desc: 'Register' }
           ]
         },
-        {link: '/g/12345', icon: 'far fa-bell', desc: 'Alerts'}
+        { link: '/g/12345', icon: 'far fa-bell', desc: 'Alerts' }
       ]
     };
 
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
     history.listen(() => {
       // clear alert on location change
       dispatch(alertActions.clear());
@@ -62,8 +73,8 @@ class App extends React.Component<Props> {
   }
 
   render() {
-    const {alert} = this.props;
-    const {gists} = this.state;
+    const { alert } = this.props;
+    const { gists } = this.state;
     return (
       <Router history={history}>
         <React.Fragment>
@@ -110,11 +121,11 @@ const Gist = (props: any) => {
 };
 
 const mapStateToProps = (state: any) => {
-  const {alert} = state;
+  const { alert } = state;
   return {
     alert
   };
 };
 
 const connectedApp = connect(mapStateToProps)(App);
-export {connectedApp as App};
+export { connectedApp as App };

@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.sa.dao.repository;
 
-import org.springframework.data.repository.CrudRepository;
-
 import com.sa.dao.entity.User;
 
 /**
@@ -29,6 +27,7 @@ import com.sa.dao.entity.User;
  * @version 1.0
  * @since 1.0
  */
-public interface UserRepository extends CrudRepository<User, Integer> {
-	User findByEmail(String username);
+public interface UserRepository extends BaseCrudRepository<User> {
+	
+	User findByEmail(String username);	
 }

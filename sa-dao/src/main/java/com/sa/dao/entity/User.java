@@ -29,6 +29,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 /**
  * The <code>User</code>
@@ -44,17 +49,19 @@ public class User extends Auditable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	@NotBlank
 	private String firstName;
 	private String lastName;
+	@NotBlank
 	private String email;
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@NotBlank
 	private String password;
 	private Boolean enabled = true;
 	private Integer failedLoginAttempts = 0;
 
 	@ManyToMany
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-	// ~ defaults to @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id"),
-	//     inverseJoinColumns = @joinColumn(name = "role_id"))
 	private List<Role> roles = new ArrayList<>();
 
 	public Integer getId() {
@@ -171,7 +178,7 @@ public class User extends Auditable {
 		return builder.toString();
 	}
 	
-	public User toUIObj() {
+	public User toUiComposite() {
 		User u = new User();
 		u.setEmail(email);
 		u.setFirstName(firstName);

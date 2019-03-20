@@ -18,11 +18,9 @@
  ******************************************************************************/
 package com.sa.dao.repository;
 
-import org.springframework.data.repository.CrudRepository;
-
 import com.sa.dao.entity.Role;
 
-public interface RoleRepository extends CrudRepository<Role, Integer> {
+public interface RoleRepository extends BaseCrudRepository<Role> {
 
 	Role findByName(String name);
 }

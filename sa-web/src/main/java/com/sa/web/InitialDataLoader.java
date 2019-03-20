@@ -39,7 +39,7 @@ import com.sa.dao.repository.UserRepository;
 @Component
 public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-	boolean alreadySetup = false;
+	boolean alreadySetup = true;
 
 	@Autowired
 	private UserRepository userRepository;

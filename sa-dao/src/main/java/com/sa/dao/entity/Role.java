@@ -29,6 +29,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * The <code>Role</code>
  *
@@ -46,6 +48,7 @@ public class Role extends Auditable {
 	private String description;
 
 	@ManyToMany(mappedBy = "roles")
+	@JsonIgnore
 	private List<User> users = new ArrayList<>();
 
 	@ManyToMany

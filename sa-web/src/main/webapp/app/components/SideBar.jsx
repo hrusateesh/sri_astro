@@ -1,16 +1,16 @@
 // @flow
-import React from 'react';
-import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PerfectScrollbar from 'perfect-scrollbar';
-import type {Dispatch} from '../types/Store';
-import {userActions} from '../_actions';
+import type { Dispatch } from '../types/Store';
+import { userActions } from '../_actions';
 
 import './SideBar.scss';
 
 type Props = {
   dispatch: Dispatch,
-  children: Component
+  children?: React.Node
 };
 
 class SideBar extends React.Component<Props> {
@@ -59,12 +59,17 @@ const SideBarLogo = () => (
 );
 
 type MenuProps = {
-  children: any,
-  icon: string,
+  children?: any,
+  icon?: string,
   desc: string
 };
+
+type State = {
+  checked: boolean
+};
+
 class SidebarMenu extends React.Component<MenuProps, State> {
-  constructor(props: Props) {
+  constructor(props: MenuProps) {
     super(props);
     this.state = {
       checked: false
@@ -85,9 +90,9 @@ class SidebarMenu extends React.Component<MenuProps, State> {
           {this.props.desc}
           <i className='fa fa-angle-down rotate-icon' />
         </a>
-        <div className='collapsible-body' style={{display: this.state.checked ? 'block' : 'none'}}>
+        <div className='collapsible-body' style={{ display: this.state.checked ? 'block' : 'none' }}>
           <ul>
-            {React.Children.map(this.props.children, (child: any) => React.cloneElement(child, {subMenuItem: true}))}
+            {React.Children.map(this.props.children, (child: any) => React.cloneElement(child, { subMenuItem: true }))}
           </ul>
         </div>
       </li>
@@ -99,7 +104,7 @@ type ItemProps = {
   link: string,
   icon: string,
   desc: string,
-  subMenuItem: boolean
+  subMenuItem?: boolean
 };
 const SidebarItem = (props: ItemProps) => (
   <li>
@@ -114,4 +119,4 @@ const mapStateToProps = () => {
   return {};
 };
 const connectedSideBar = connect(mapStateToProps)(SideBar);
-export {connectedSideBar as SideBar, SidebarMenu, SidebarItem};
+export { connectedSideBar as SideBar, SidebarMenu, SidebarItem };

@@ -18,10 +18,9 @@
  ******************************************************************************/
 package com.sa.dao.repository;
 
-import org.springframework.data.repository.CrudRepository;
-
 import com.sa.dao.entity.Privilege;
 
-public interface PrivilegeRepository extends CrudRepository<Privilege, Integer> {
+public interface PrivilegeRepository extends BaseCrudRepository<Privilege> {
+
 	Privilege findByName(String name);
 }

@@ -32,7 +32,6 @@ public class ReturnObject extends HashMap<String, Object>{
 	private static final long serialVersionUID = 6629753963335762757L;
 
 	public ReturnObject() {
-		put("result", new Object());
 		put("success", true);
 	}
 

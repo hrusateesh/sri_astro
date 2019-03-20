@@ -26,6 +26,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 @Entity
 public class Privilege extends Auditable {
 
@@ -35,6 +38,7 @@ public class Privilege extends Auditable {
 
 	private String name;
 
+	@JsonIgnore
 	@ManyToMany(mappedBy = "privileges")
 	private List<Role> roles;
 

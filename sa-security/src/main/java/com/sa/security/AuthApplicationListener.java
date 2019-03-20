@@ -26,6 +26,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
 
+/**
+ * The <code>AuthApplicationListener</code>
+ *
+ * @author Sateesh G
+ * @version 1.0
+ * @since 1.0
+ */
 @Component
 public class AuthApplicationListener {
 
@@ -34,9 +41,9 @@ public class AuthApplicationListener {
 	@EventListener
 	public void handleInteractiveAuthenticationSuccess(InteractiveAuthenticationSuccessEvent event) {
 		if (UsernamePasswordAuthenticationToken.class.isAssignableFrom(event.getAuthentication().getClass())) {
-			logger.info("Username & Password Authentication Successful");
+			logger.info("Authentication successful with provided username & password.");
 		} else if (RememberMeAuthenticationToken.class.isAssignableFrom(event.getAuthentication().getClass())) {
-			logger.info("Remember me Authentication Successful");
+			logger.info("Authentication successful with provided remember me token.");
 		}
 	}
 }
