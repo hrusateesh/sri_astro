@@ -12,10 +12,10 @@ import type { Alert } from '../types/Custom';
 import { history } from '../_helpers';
 import { alertActions } from '../_actions';
 import { NavBar, SideBar, SidebarMenu, SidebarItem, Footer } from '../components';
-
 import { Home } from '../components/Home';
 import { NotFound } from '../components/NotFound';
-import { Register } from '../components/Register';
+import { Login, SignUp } from '../components/user';
+import { ConsentBanner, CookiePolicy, PrivacyPolicy, TermsOfService } from '../components/legal';
 
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 import './App.scss';
@@ -44,15 +44,12 @@ class App extends React.Component<Props, State> {
         {
           icon: 'fa fa-tachometer-alt',
           desc: 'Dashboards',
-          children: [{ link: '/', desc: 'Home' }, { link: '../dash/dash02.html', desc: 'Version 2' }]
+          children: [{ link: '/', desc: 'Home' }, { link: '/dash/dash02.html', desc: 'Version 2' }]
         },
         {
           icon: 'fas fa-user-tie',
           desc: 'User',
-          children: [
-            { link: '../pages/login.html', desc: 'Login' },
-            { link: '/register', icon: 'fa fa-bolt', desc: 'Register' }
-          ]
+          children: [{ link: '/login', desc: 'Login' }, { link: '/signup', icon: 'fa fa-bolt', desc: 'Sign Up' }]
         },
         { link: '/g/12345', icon: 'far fa-bell', desc: 'Alerts' }
       ]
@@ -79,6 +76,7 @@ class App extends React.Component<Props, State> {
       <Router history={history}>
         <React.Fragment>
           {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+          <ConsentBanner />
           <header>
             <SideBar>
               {gists ? (
@@ -101,11 +99,15 @@ class App extends React.Component<Props, State> {
             </SideBar>
             <NavBar />
           </header>
-          <main>
+          <main className='p-3'>
             <Switch>
               <Route exact path='/' component={Home} />
-              <Route path='/register' component={Register} />
+              <Route path='/login' component={Login} />
+              <Route path='/signup' component={SignUp} />
               <Route path='/g/:gistId' component={Gist} />
+              <Route path='/legal/cookie-policy' component={CookiePolicy} />
+              <Route path='/legal/privacy-policy' component={PrivacyPolicy} />
+              <Route path='/legal/terms-of-service' component={TermsOfService} />
               <Route component={NotFound} />
             </Switch>
           </main>

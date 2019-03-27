@@ -21,6 +21,7 @@ package com.sa.dao.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,9 +30,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Type;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -44,6 +47,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
  */
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User extends Auditable {
 
 	@Id
@@ -51,12 +55,17 @@ public class User extends Auditable {
 	private Integer id;
 	@NotBlank
 	private String firstName;
+	@NotBlank
 	private String lastName;
+	@NotBlank
+	private String displayName;
 	@NotBlank
 	private String email;
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@NotBlank
 	private String password;
+	@Column(nullable = false, columnDefinition = "SMALLINT")
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	private Boolean enabled = true;
 	private Integer failedLoginAttempts = 0;
 
@@ -86,6 +95,20 @@ public class User extends Auditable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	/**
+	 * @return the displayName
+	 */
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	/**
+	 * @param displayName the displayName to set
+	 */
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
 	public String getEmail() {

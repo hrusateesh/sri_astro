@@ -1,11 +1,11 @@
 // @flow
 import React from 'react';
-import {connect} from 'react-redux';
-import type {Dispatch} from '../types/Store';
-import type {User} from '../types/Custom';
+import { connect } from 'react-redux';
+import type { Dispatch } from '../types/Store';
+import type { User } from '../types/Custom';
 
-import {Login} from './Login';
-import {userActions} from '../_actions';
+import { Login } from './user';
+import { userActions } from '../_actions';
 
 import './NavBar.scss';
 
@@ -47,7 +47,7 @@ class NavBar extends React.Component<Props, State> {
   };
 
   render() {
-    const {user} = this.props;
+    const { user } = this.props;
     return (
       <nav
         className={
@@ -69,6 +69,7 @@ class NavBar extends React.Component<Props, State> {
             <i className='fa fa-bars' />
           </a>
         </div>
+        <NavBarLogo />
         <div className='breadcrumb-dn mr-auto'>
           <p>Dashboard v.1</p>
         </div>
@@ -148,13 +149,23 @@ class NavBar extends React.Component<Props, State> {
   }
 }
 
+const NavBarLogo = () => (
+  <div className='logo-sn text-center'>
+    <a href='/' className='sa-logo'>
+      <span className='sri'>Sri</span>
+      <span className='smText'>&#9672;</span>Astrology
+    </a>
+    <p className='smText text-right'>Past. Present. Future.</p>
+  </div>
+);
+
 const mapStateToProps = (state: State) => {
-  const {authentication} = state;
-  const {user} = authentication;
+  const { authentication } = state;
+  const { user } = authentication;
   return {
     user
   };
 };
 
 const connectedNavBar = connect(mapStateToProps)(NavBar);
-export {connectedNavBar as NavBar};
+export { connectedNavBar as NavBar };

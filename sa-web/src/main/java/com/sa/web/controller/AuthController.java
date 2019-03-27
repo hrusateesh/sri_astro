@@ -1,6 +1,5 @@
 package com.sa.web.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,9 +8,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +21,7 @@ import com.sa.dao.entity.User;
 import com.sa.dao.repository.RoleRepository;
 import com.sa.dao.repository.UserRepository;
 import com.sa.web.pojo.ReturnObject;
+import com.sa.web.pojo.SignupUser;
 import com.sa.web.pojo.UserUIComposite;
 
 @RestController
@@ -31,6 +31,8 @@ public class AuthController {
 	private UserRepository userRepository;
 	@Autowired
 	private RoleRepository roleRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@GetMapping(value = "/currentUser")
 	public ReturnObject getDetails(Authentication authentication) {
@@ -45,11 +47,12 @@ public class AuthController {
 		return retVal;
 	}
 
-	@PostMapping(value = "/registerUser")
-	public ReturnObject registerUser(@Valid @RequestBody User user, BindingResult bindingResult) {
+	@PostMapping(value = "/api/register")
+	public ReturnObject registerUser(@RequestBody @Valid SignupUser signupUser, BindingResult bindingResult) {
+
 		ReturnObject retVal = new ReturnObject();
 		boolean isValid = true;
-		if (user == null || bindingResult.hasErrors()) {
+		if (signupUser == null || bindingResult.hasErrors()) {
 			List<String> errors = bindingResult.getAllErrors().stream().map(err -> {
 				if (err instanceof FieldError) {
 					return ((FieldError) err).getField() + " " + err.getDefaultMessage();
@@ -63,6 +66,8 @@ public class AuthController {
 		}
 
 		if (isValid) {
+			User user = signupUser.toUser();
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			Role role = roleRepository.findByName("ROLE_USER");
 			user.addRole(role);
 			userRepository.save(user);

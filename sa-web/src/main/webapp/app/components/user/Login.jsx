@@ -1,10 +1,10 @@
 // @flow
 import React from 'react';
-import {connect} from 'react-redux';
-import type {Dispatch} from '../types/Store';
-import type {User} from '../types/Custom';
+import { connect } from 'react-redux';
+import type { Dispatch } from '../../types/Store';
+import type { User } from '../../types/Custom';
 
-import {userActions} from '../_actions';
+import { userActions } from '../../_actions';
 import './Login.scss';
 
 import $ from 'jquery';
@@ -62,14 +62,14 @@ class Login extends React.Component<Props, State> {
   handleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState({[target.name]: value});
+    this.setState({ [target.name]: value });
   };
 
   handleSubmit = (e: SyntheticInputEvent<HTMLInputElement>) => {
     e.preventDefault();
-    this.setState({submitted: true});
-    const {username, password, remember_me, forgetPass} = this.state;
-    const {dispatch} = this.props;
+    this.setState({ submitted: true });
+    const { username, password, remember_me, forgetPass } = this.state;
+    const { dispatch } = this.props;
     if (!forgetPass) {
       let form = e.currentTarget;
       form.checkValidity();
@@ -97,8 +97,8 @@ class Login extends React.Component<Props, State> {
   };
 
   render() {
-    const {loggingIn, error} = this.props;
-    const {username, password, remember_me, submitBtnTxt, submitted, forgetPass} = this.state;
+    const { loggingIn, error } = this.props;
+    const { username, password, remember_me, submitBtnTxt, submitted, forgetPass } = this.state;
     return (
       <React.Fragment>
         <a
@@ -158,7 +158,7 @@ class Login extends React.Component<Props, State> {
                     <div className='checkbox'>
                       <label>
                         <input type='checkbox' name='remember_me' value={remember_me} onChange={this.handleChange} />{' '}
-                        keep me logged-in
+                        Remember me
                       </label>
                     </div>
                   </React.Fragment>
@@ -173,7 +173,7 @@ class Login extends React.Component<Props, State> {
             </div>
             <div className='bottom text-center'>
               New here?{' '}
-              <a href='/register' className='btn btn-primary p-2'>
+              <a href='/signup' className='btn btn-primary p-2'>
                 <b>Join Us</b>
               </a>
             </div>
@@ -208,7 +208,7 @@ type StoreState = {
 };
 
 const mapStateToProps = (state: StoreState) => {
-  const {loggingIn, error} = state.authentication;
+  const { loggingIn, error } = state.authentication;
   return {
     loggingIn,
     error
@@ -216,4 +216,4 @@ const mapStateToProps = (state: StoreState) => {
 };
 
 const connectedLogin = connect(mapStateToProps)(Login);
-export {connectedLogin as Login};
+export { connectedLogin as Login };

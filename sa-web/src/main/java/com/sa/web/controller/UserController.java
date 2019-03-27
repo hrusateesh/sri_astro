@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sa.dao.entity.Role;
 import com.sa.dao.entity.User;
 import com.sa.dao.repository.UserRepository;
 import com.sa.web.pojo.ReturnObject;
@@ -46,7 +45,7 @@ import com.sa.web.pojo.ReturnObject;
  * @since 1.0
  */
 @RestController
-@RequestMapping("/rest/user")
+@RequestMapping("/api/user")
 @PreAuthorize("hasRole('ADMIN')")
 public class UserController {
 
