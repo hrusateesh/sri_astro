@@ -34,7 +34,7 @@ module.exports = merge(common, {
   },
   output: {
     path: path.join(__dirname, '/src/main/resources/static'),
-    filename: 'js/main.bundle.js',
+    filename: 'js/[name].[contenthash].js',
     publicPath: '/'
   },
   plugins: [

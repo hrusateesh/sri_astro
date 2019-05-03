@@ -10,6 +10,9 @@ export type Action =
   | { type: "CURRENT_USER_REQUEST", payload?: any }
   | { type: "CURRENT_USER_SUCCESS", payload: User }
   | { type: "CURRENT_USER_FAILURE", payload: string }
+  | { type: "FORGET_PASS_REQUEST", payload?: any }
+  | { type: "FORGET_PASS_SUCCESS", payload: string }
+  | { type: "FORGET_PASS_FAILURE", payload: string }
   | { type: "USERS_GETALL_REQUEST", payload?: any }
   | { type: "USERS_GETALL_SUCCESS", payload: Array<User> }
   | { type: "USERS_GETALL_FAILURE", payload: string }

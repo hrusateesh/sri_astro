@@ -39,6 +39,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.sa.security.JsonAuthHandler;
 import com.sa.security.RestAuthenticationEntryPoint;
@@ -99,7 +102,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authenticationEntryPoint(restAuthenticationEntryPoint)
             .and()
 			.authorizeRequests()
-				.antMatchers("/", "/home").permitAll()
+				.antMatchers("/", "/*").permitAll()
 				.antMatchers("/api/**").authenticated()
 				.and()
 			.formLogin()
@@ -127,13 +130,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .key(rememberMeKey)
                 .and()
             .headers()
-	            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "http://localhost:3001"))
-	            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE"))
-	            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Max-Age", "3600"))
-	            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Credentials", "true"))
+//	            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "http://localhost:3001"))
+//	            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE"))
+//	            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Max-Age", "3600"))
+//	            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Credentials", "true"))
 //	            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Expose-Headers", "X-CSRF-TOKEN,X-CSRF-HEADER,X-CSRF-PARAM,JSESSIONID,REMEMBER_ME"))
-	            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers", "Origin,Accept,Content-Type,X-Requested-With,Access-Control-Request-Method,Access-Control-Allow-Credentials,Access-Control-Request-Headers"))
+//	            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers", "origin, accept, content-type, X-Requested-With, Access-Control-Request-Method, Access-Control-Allow-Credentials, Access-Control-Request-Headers"))
+//	            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers", "*"))
 	            ;
+	}
+	
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		return source;
 	}
 
 }

@@ -60,6 +60,7 @@ public class SessionTimerInterceptor extends HandlerInterceptorAdapter {
 				response.sendRedirect("/logout");
 			}
 		}
+//		response.setHeader("Access-Control-Allow-Origin", "http://localhost:3001");
 		return true;
 	}
 

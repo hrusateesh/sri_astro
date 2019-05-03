@@ -1,0 +1,13 @@
+
+
+${Ansi.RED}		 .oooooo..o           o8o             .o.                    .                      oooo                                   
+${Ansi.GREEN}		d8P'    `Y8           `"'            .888.                 .o8                      `888                                   
+${Ansi.BLUE}		Y88bo.      oooo d8b oooo           .8"888.      .oooo.o .o888oo oooo d8b  .ooooo.   888   .ooooo.   .oooooooo oooo    ooo 
+${Ansi.RED}		 `"Y8888o.  `888""8P `888          .8' `888.    d88(  "8   888   `888""8P d88' `88b  888  d88' `88b 888' `88b   `88.  .8'  
+${Ansi.GREEN}		     `"Y88b  888      888         .88ooo8888.   `"Y88b.    888    888     888   888  888  888   888 888   888    `88..8'   
+${Ansi.BLUE}		oo     .d8P  888      888        .8'     `888.  o.  )88b   888 .  888     888   888  888  888   888 `88bod8P'     `888'    
+${Ansi.RED}		8""88888P'  d888b    o888o      o88o     o8888o 8""888P'   "888" d888b    `Y8bod8P' o888o `Y8bod8P' `8oooooo.      .8'     
+${Ansi.GREEN}		                                                                                                    d"     YD  .o..P'      
+${Ansi.BLUE}		                                                                                                    "Y88888P'  `Y8P'
+                                                                                                    
+${Ansi.GREEN}		:: Spring Boot${spring-boot.formatted-version} :: ${application.title}${application.formatted-version} ::

@@ -1,0 +1,45 @@
+#login-dp {
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+#login-dp .bottom {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-top: 1px solid #ddd;
+  clear: both;
+  width: 100%;
+}
+#login-dp .bottom a {
+  font-size: 0.75rem;
+}
+#login-dp .checkbox {
+  font-size: 0.9rem;
+}
+#login-dp .social-buttons {
+  margin: 5px 0;
+}
+#login-dp .social-buttons a {
+  font-size: 0.75rem;
+  color: #fff !important;
+}
+#login-dp .form-group {
+  margin-bottom: 10px;
+}
+.btn.btn-fb {
+  background-color: #3b5998;
+}
+.btn.btn-fb:hover {
+  background-color: #496ebc;
+}
+.btn.btn-tw {
+  color: #fff;
+  background-color: #55acee;
+}
+.btn.btn-tw:hover {
+  color: #fff;
+  background-color: #59b5fa;
+}
+@media (max-width: 768px) {
+  #login-dp {
+    padding: 0 15px;
+  }
+}

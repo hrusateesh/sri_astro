@@ -59,6 +59,7 @@ module.exports = merge(common, {
   output: {
     path: path.join(__dirname, '/src/main/resources/static'),
     filename: 'js/main.[hash].js',
+    chunkFilename: 'js/[name].bundle.js',
     publicPath: '/'
   },
   plugins: [
