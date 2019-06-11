@@ -3,7 +3,7 @@ import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import type { Dispatch } from "redux";
-import PerfectScrollbar from "perfect-scrollbar";
+// import PerfectScrollbar from "perfect-scrollbar";
 import * as Waves from "node-waves";
 
 import type { Action } from "../types";
@@ -15,7 +15,8 @@ import { NavBar, SideBar, SideBarMenu, SideBarItem, Footer } from "../components
 import { Home, SignUp, SignUpSuccess } from "../components";
 import { ConsentBanner, CookiePolicy, PrivacyPolicy, TermsOfService } from "../components";
 
-import "perfect-scrollbar/css/perfect-scrollbar.css";
+import "typeface-roboto";
+// import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 const NotFound = React.lazy(() => import(/* webpackChunkName: "notFound" */ "../components/pages/NotFound"));
 
@@ -63,7 +64,7 @@ class App extends React.Component<Props, State> {
 
   /* eslint-disable no-undef */
   componentDidMount() {
-    new PerfectScrollbar("#root");
+    // new PerfectScrollbar("#root");
     Waves.attach(".button", ["waves-button", "waves-float"]);
     Waves.init();
   }

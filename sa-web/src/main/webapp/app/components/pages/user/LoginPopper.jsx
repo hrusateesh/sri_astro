@@ -1,7 +1,7 @@
 //@flow
 import React from "react";
 import { connect } from "react-redux";
-import classNames from "classnames";
+import clsx from "clsx";
 import { Button, FormControl, FormControlLabel, Checkbox } from "@material-ui/core";
 import { Grow, Paper, Popper, ClickAwayListener, SvgIcon } from "@material-ui/core";
 import { Input, InputLabel, Typography, withStyles, Link } from "@material-ui/core";
@@ -15,14 +15,14 @@ const styles = (theme: any) => ({
     display: "flex"
   },
   paper: {
-    marginRight: theme.spacing.unit * 2,
+    marginRight: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`
   },
   avatar: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main
   },
   form: {
@@ -32,7 +32,7 @@ const styles = (theme: any) => ({
     alignItems: "left"
   },
   forgetpass: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing(2)
   }
 });
 
@@ -212,13 +212,13 @@ class LoginPopper extends React.Component<Props, State> {
 
 const socialStyles = (theme: any) => ({
   fab: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   extendedIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     "&:hover": {
       backgroundColor: "currentColor",
       opacity: 0.9
@@ -232,7 +232,7 @@ const socialStyles = (theme: any) => ({
     }
   },
   googleIcon: {
-    paddingTop: theme.spacing.unit / 2
+    paddingTop: theme.spacing(0.5)
   },
   fbBtn: {
     backgroundColor: "#385499",
@@ -251,7 +251,7 @@ const socialStyles = (theme: any) => ({
     }
   },
   leftIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
     fill: "#fff"
   }
 });
@@ -260,7 +260,7 @@ const SocialLogin = withStyles(socialStyles)((props: any) => {
   const { classes } = props;
   return (
     <div className="">
-      <Button variant="contained" size="small" className={classNames(classes.button, classes.googleBtn)}>
+      <Button variant="contained" size="small" className={clsx(classes.button, classes.googleBtn)}>
         <SvgIcon className={classes.googleIcon} size="small">
           <g>
             <path
@@ -281,14 +281,14 @@ const SocialLogin = withStyles(socialStyles)((props: any) => {
         Google
         <Typography variant="srOnly">Login with Google</Typography>
       </Button>
-      <Button variant="contained" size="small" className={classNames(classes.button, classes.fbBtn)}>
+      <Button variant="contained" size="small" className={clsx(classes.button, classes.fbBtn)}>
         <SvgIcon className={classes.leftIcon} size="small">
           <path d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M18,5H15.5A3.5,3.5 0 0,0 12,8.5V11H10V14H12V21H15V14H18V11H15V9A1,1 0 0,1 16,8H18V5Z" />
         </SvgIcon>
         Facebook
         <Typography variant="srOnly">Login with Facebook</Typography>
       </Button>
-      <Button variant="contained" size="small" className={classNames(classes.button, classes.twitterBtn)}>
+      <Button variant="contained" size="small" className={clsx(classes.button, classes.twitterBtn)}>
         <SvgIcon className={classes.leftIcon} size="small">
           <path d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M17.71,9.33C18.19,8.93 18.75,8.45 19,7.92C18.59,8.13 18.1,8.26 17.56,8.33C18.06,7.97 18.47,7.5 18.68,6.86C18.16,7.14 17.63,7.38 16.97,7.5C15.42,5.63 11.71,7.15 12.37,9.95C9.76,9.79 8.17,8.61 6.85,7.16C6.1,8.38 6.75,10.23 7.64,10.74C7.18,10.71 6.83,10.57 6.5,10.41C6.54,11.95 7.39,12.69 8.58,13.09C8.22,13.16 7.82,13.18 7.44,13.12C7.81,14.19 8.58,14.86 9.9,15C9,15.76 7.34,16.29 6,16.08C7.15,16.81 8.46,17.39 10.28,17.31C14.69,17.11 17.64,13.95 17.71,9.33Z" />
         </SvgIcon>

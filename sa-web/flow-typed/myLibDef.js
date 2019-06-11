@@ -34,10 +34,6 @@ declare module "history" {
   declare module.exports: any;
 }
 
-declare module "classnames" {
-  declare module.exports: any;
-}
-
 declare function $get(string): Promise<any>;
 declare function $formPost(string, any): Promise<any>;
 declare function $post(string, any): Promise<any>;

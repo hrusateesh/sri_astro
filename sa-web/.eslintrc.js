@@ -57,7 +57,7 @@ module.exports = {
       createClass: "createReactClass", // Regex for Component Factory to use, default to "createReactClass"
       pragma: "React", // Pragma to use, default to "React"
       version: "detect", // React version. "detect" automatically picks the version you have installed.
-      flowVersion: "0.94.0" // Flow version
+      flowVersion: "0.98.0" // Flow version
     },
     flowtype: {
       onlyFilesWithFlowAnnotation: true

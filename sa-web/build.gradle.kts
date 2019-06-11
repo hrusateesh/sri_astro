@@ -27,8 +27,8 @@ dependencies {
 }
 
 node{
-	version = "11.9.0"
-	npmVersion = "6.7.0"
+	version = "12.1.0"
+	npmVersion = "6.9.0"
 	download = true
 	nodeModulesDir = file("${project.projectDir}")
 }
