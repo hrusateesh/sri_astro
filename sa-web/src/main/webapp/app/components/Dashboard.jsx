@@ -4,11 +4,14 @@ import { connect } from "react-redux";
 import clsx from "clsx";
 
 import { withStyles } from "@material-ui/core";
-import { Drawer, AppBar, Toolbar, List, Typography } from "@material-ui/core";
+import { Button, Drawer, AppBar, Toolbar, List, Typography } from "@material-ui/core";
 import { CssBaseline, Divider, IconButton, Badge } from "@material-ui/core";
+import PersonIcon from "@material-ui/icons/Person";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+
+import type { Dispatch, User } from "../types";
 
 import { mainListItems, secondaryListItems } from "./listItems";
 import { LoginPopper } from "./pages/user";
@@ -17,6 +20,8 @@ import { ContactUs } from "./pages/modals";
 import { history } from "Helpers";
 import { Home, SignUp, SignUpSuccess } from "../components";
 import { ConsentBanner, CookiePolicy, PrivacyPolicy, TermsOfService } from "../components";
+
+import { userActions } from "Actions";
 
 const NotFound = React.lazy(() => import(/* webpackChunkName: "notFound" */ "../components/pages/NotFound"));
 
@@ -100,18 +105,24 @@ const styles = theme => ({
 });
 
 type Props = {
-  classes: any
+  classes: any,
+  dispatch: Dispatch,
+  user: User
 };
 
 type State = {
-  open: boolean
+  open: boolean,
+  authentication: {
+    user: User
+  }
 };
 
 class Dashboard extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      open: true
+      open: true,
+      authentication: {}
     };
   }
 
@@ -123,8 +134,10 @@ class Dashboard extends React.Component<Props, State> {
     this.setState({ open: false });
   };
 
+  handleLogoutUser = () => this.props.dispatch(userActions.logout());
+
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
 
     return (
       <div className={classes.root}>
@@ -143,13 +156,21 @@ class Dashboard extends React.Component<Props, State> {
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
               Dashboard
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            {user && (
+              <IconButton color="inherit">
+                <Badge badgeContent={4} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            )}
             <ContactUs />
-            <LoginPopper />
+            {user && (
+              <Button variant="contained" size="small" color="secondary" onClick={this.handleLogoutUser}>
+                <PersonIcon />
+                {user.firstName}! Logout
+              </Button>
+            )}
+            {!user && <LoginPopper />}
           </Toolbar>
         </AppBar>
         <Drawer
@@ -190,4 +211,12 @@ class Dashboard extends React.Component<Props, State> {
   }
 }
 
-export default connect()(withStyles(styles)(Dashboard));
+const mapStateToProps = (state: State) => {
+  const { authentication } = state;
+  const { user } = authentication;
+  return {
+    user
+  };
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(Dashboard));

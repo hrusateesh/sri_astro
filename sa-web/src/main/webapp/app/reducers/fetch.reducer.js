@@ -4,7 +4,7 @@ import type { Action } from "../types";
 
 type State = {
   type?: string,
-  message?: string
+  message?: string,
 };
 
 export function fetch(state: State = {}, action: Action): State {

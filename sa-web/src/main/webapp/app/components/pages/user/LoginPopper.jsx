@@ -1,39 +1,50 @@
 //@flow
+import {
+  Button,
+  Checkbox,
+  ClickAwayListener,
+  FormControl,
+  FormControlLabel,
+  Grow,
+  Input,
+  InputLabel,
+  Link,
+  Paper,
+  Popper,
+  SvgIcon,
+  Typography,
+  withStyles,
+} from "@material-ui/core";
+import { userActions } from "Actions";
+import clsx from "clsx";
 import React from "react";
 import { connect } from "react-redux";
-import clsx from "clsx";
-import { Button, FormControl, FormControlLabel, Checkbox } from "@material-ui/core";
-import { Grow, Paper, Popper, ClickAwayListener, SvgIcon } from "@material-ui/core";
-import { Input, InputLabel, Typography, withStyles, Link } from "@material-ui/core";
-
-import { userActions } from "Actions";
-
 import type { Dispatch, User } from "../../../types";
 
 const styles = (theme: any) => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
   paper: {
     marginRight: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(3)}px`,
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: "100%", // Fix IE 11 issue.
     display: "flex",
     flexDirection: "column",
-    alignItems: "left"
+    alignItems: "left",
   },
   forgetpass: {
-    marginTop: theme.spacing(2)
-  }
+    marginTop: theme.spacing(2),
+  },
 });
 
 type Props = {
@@ -42,7 +53,7 @@ type Props = {
   user: User,
   loggingIn: boolean,
   error: string,
-  popup: boolean
+  popup: boolean,
 };
 
 type State = {
@@ -54,7 +65,7 @@ type State = {
   forgetPass: boolean,
   submitBtnTxt: string,
   loggingIn: boolean,
-  open: boolean
+  open: boolean,
 };
 
 const initialState = {
@@ -66,7 +77,7 @@ const initialState = {
   forgetPass: false,
   submitBtnTxt: "Login",
   loggingIn: false,
-  open: false
+  open: false,
 };
 
 class LoginPopper extends React.Component<Props, State> {
@@ -108,7 +119,7 @@ class LoginPopper extends React.Component<Props, State> {
   forgetPassword = () => {
     this.setState({
       forgetPass: true,
-      submitBtnTxt: "Continue"
+      submitBtnTxt: "Continue",
     });
   };
 
@@ -212,48 +223,48 @@ class LoginPopper extends React.Component<Props, State> {
 
 const socialStyles = (theme: any) => ({
   fab: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
   },
   extendedIcon: {
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
   },
   button: {
     margin: theme.spacing(1),
     "&:hover": {
       backgroundColor: "currentColor",
-      opacity: 0.9
-    }
+      opacity: 0.9,
+    },
   },
   googleBtn: {
     backgroundColor: "#fff",
     "&:hover": {
       backgroundColor: "#fff",
-      opacity: 0.9
-    }
+      opacity: 0.9,
+    },
   },
   googleIcon: {
-    paddingTop: theme.spacing(0.5)
+    paddingTop: theme.spacing(0.5),
   },
   fbBtn: {
     backgroundColor: "#385499",
     color: "#fff",
     "&:hover": {
       backgroundColor: "#385499",
-      opacity: 0.9
-    }
+      opacity: 0.9,
+    },
   },
   twitterBtn: {
     backgroundColor: "#1da1f2",
     color: "#fff",
     "&:hover": {
       backgroundColor: "#1da1f2",
-      opacity: 0.9
-    }
+      opacity: 0.9,
+    },
   },
   leftIcon: {
     marginRight: theme.spacing(1),
-    fill: "#fff"
-  }
+    fill: "#fff",
+  },
 });
 
 const SocialLogin = withStyles(socialStyles)((props: any) => {
@@ -302,15 +313,15 @@ const SocialLogin = withStyles(socialStyles)((props: any) => {
 type StoreState = {
   authentication: {
     loggingIn: boolean,
-    error: string
-  }
+    error: string,
+  },
 };
 
 const mapStateToProps = (state: StoreState) => {
   const { loggingIn, error } = state.authentication;
   return {
     loggingIn,
-    error
+    error,
   };
 };
 

@@ -1,26 +1,23 @@
 // @flow
+import { userActions } from "Actions";
+import $ from "jquery";
 import React from "react";
 import { connect } from "react-redux";
-import $ from "jquery";
-
-import { Login } from "../pages/user";
-import { ContactUs } from "../pages";
-import { userActions } from "Actions";
-
 import type { Dispatch, User } from "../../types";
-
+import { ContactUs } from "../pages";
+import { Login } from "../pages/user";
 import "./NavBar.scss";
 
 type Props = {
   dispatch: Dispatch,
-  user: User
+  user: User,
 };
 
 type State = {
   scrolled: boolean,
   authentication: {
-    user: User
-  }
+    user: User,
+  },
 };
 
 class NavBar extends React.Component<Props, State> {
@@ -28,7 +25,7 @@ class NavBar extends React.Component<Props, State> {
     super(props);
     this.state = {
       scrolled: false,
-      authentication: {}
+      authentication: {},
     };
   }
 
@@ -36,7 +33,7 @@ class NavBar extends React.Component<Props, State> {
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
-    $(document).on("click.bs.dropdown.data-api", ".dropdown.keep-inside-clicks-open", function(e: any) {
+    $(document).on("click.bs.dropdown.data-api", ".dropdown.keep-inside-clicks-open", function (e: any) {
       e.stopPropagation();
     });
   }
@@ -47,7 +44,7 @@ class NavBar extends React.Component<Props, State> {
 
   handleScroll = () => {
     this.setState({
-      scrolled: window.scrollY > 50
+      scrolled: window.scrollY > 50,
     });
   };
 
@@ -178,7 +175,7 @@ const mapStateToProps = (state: State) => {
   const { authentication } = state;
   const { user } = authentication;
   return {
-    user
+    user,
   };
 };
 

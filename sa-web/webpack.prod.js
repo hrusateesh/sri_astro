@@ -1,28 +1,28 @@
 /* eslint-disable */
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const path = require('path');
-const common = require('./webpack.common.js');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+const webpack = require("webpack");
+const { merge } = require("webpack-merge");
+const path = require("path");
+const common = require("./webpack.common.js");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = merge(common, {
-  mode: 'production',
+  mode: "production",
   module: {
     rules: [
       {
         test: /\.(sa|sc|c)ss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
       },
       {
         test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/i,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
             options: {
-              name: '[name].[ext]',
-              outputPath: '/fonts/',
-              publicPath: '/fonts'
+              name: "[name].[ext]",
+              outputPath: "/fonts/",
+              publicPath: "/fonts"
             }
           }
         ]
@@ -57,15 +57,15 @@ module.exports = merge(common, {
     ]
   },
   output: {
-    path: path.join(__dirname, '/src/main/resources/static'),
-    filename: 'js/main.[hash].js',
-    chunkFilename: 'js/[name].bundle.js',
-    publicPath: '/'
+    path: path.join(__dirname, "/src/main/resources/static"),
+    filename: "js/main.[hash].js",
+    chunkFilename: "js/[name].bundle.js",
+    publicPath: "/"
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[hash].css',
-      chunkFilename: 'css/[id].[hash].css'
+      filename: "css/[name].[hash].css",
+      chunkFilename: "css/[id].[hash].css"
     }),
     new webpack.DefinePlugin({
       __API__: "''"

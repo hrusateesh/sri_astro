@@ -1,25 +1,17 @@
 // @flow
+import { userActions } from "Actions";
 import * as React from "react";
 import { connect } from "react-redux";
-// import PerfectScrollbar from 'perfect-scrollbar';
-
-import { userActions } from "Actions";
-
 import type { Dispatch } from "../../types";
-
 import "./SideBar.scss";
 
 type Props = {
   dispatch: Dispatch,
-  children?: React.Node
+  children?: React.Node,
 };
 
 class SideBar extends React.Component<Props> {
   handleLogoutUser = () => this.props.dispatch(userActions.logout());
-
-  componentDidMount() {
-    // new PerfectScrollbar('#slide-out');
-  }
 
   openHandler = () => {};
 

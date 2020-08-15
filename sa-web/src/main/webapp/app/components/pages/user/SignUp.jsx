@@ -1,17 +1,14 @@
 // @flow
-import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-
-import PasswordStrengthMeter from "./PasswordStrengthMeter";
 import { userActions } from "Actions";
-
+import React from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import type { Dispatch, User } from "../../../types";
 
 type Props = {
   dispatch: Dispatch,
   user: User,
-  registering: boolean
+  registering: boolean,
 };
 
 type State = {
@@ -20,7 +17,7 @@ type State = {
   submitted: boolean,
   registering: User,
   learnMore: boolean,
-  passStrength: number
+  passStrength: number,
 };
 
 class SignUp extends React.Component<Props, State> {
@@ -36,13 +33,13 @@ class SignUp extends React.Component<Props, State> {
         username: "",
         email: "",
         password: "",
-        emailOptIn: false
+        emailOptIn: false,
       },
       registering: {},
       confPass: "",
       submitted: false,
       learnMore: false,
-      passStrength: 0
+      passStrength: 0,
     };
   }
 
@@ -52,14 +49,14 @@ class SignUp extends React.Component<Props, State> {
     const { user } = this.state;
     if (name == "confPass") {
       this.setState({
-        confPass: e.target.value
+        confPass: e.target.value,
       });
     } else {
       this.setState({
         user: {
           ...user,
-          [name]: value
-        }
+          [name]: value,
+        },
       });
     }
     if (name == "password" || name == "confPass") {
@@ -77,21 +74,7 @@ class SignUp extends React.Component<Props, State> {
 
   handleLearnMore = () => {
     this.setState({
-      learnMore: !this.state.learnMore
-    });
-  };
-
-  handlePassStrength = (strength: number) => {
-    // $FlowFixMe: suppressing this error until we can refactor
-    const e: HTMLInputElement = document.getElementById("password");
-    if (!e) return;
-    if (strength < 2) {
-      e.setCustomValidity("Passwords is too week");
-    } else {
-      e.setCustomValidity("");
-    }
-    this.setState({
-      passStrength: strength
+      learnMore: !this.state.learnMore,
     });
   };
 
@@ -194,7 +177,6 @@ class SignUp extends React.Component<Props, State> {
                 value={user.password}
                 onChange={this.handleChange}
               />
-              <PasswordStrengthMeter password={user.password} onAccess={this.handlePassStrength} />
               {submitted && !user.password && <div className="invalid-feedback">Password is required</div>}
             </div>
             <div className={"col-6" + (submitted && !confPass ? " has-error" : "")}>
@@ -290,7 +272,7 @@ class SignUp extends React.Component<Props, State> {
 const mapStateToProps = (state: State) => {
   const { registering } = state;
   return {
-    registering
+    registering,
   };
 };
 

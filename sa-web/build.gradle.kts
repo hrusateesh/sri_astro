@@ -3,7 +3,7 @@ import com.moowork.gradle.node.npm.NpmTask
 plugins {
     war
 	id("org.springframework.boot")
-	id("com.moowork.node") version "1.2.0"
+	id("com.moowork.node") version "1.3.1"
 }
 
 apply(plugin = "io.spring.dependency-management")
@@ -27,7 +27,7 @@ dependencies {
 }
 
 node{
-	version = "12.1.0"
+	version = "12.4.0"
 	npmVersion = "6.9.0"
 	download = true
 	nodeModulesDir = file("${project.projectDir}")

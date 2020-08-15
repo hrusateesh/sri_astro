@@ -1,14 +1,14 @@
 // @flow
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import * as React from "react";
+import { connect } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 type ItemProps = {
   link: string,
   icon: string,
   desc: string,
   subMenuItem?: boolean,
-  handleClick?: () => void
+  handleClick?: () => void,
 };
 
 class SidebarItem extends React.Component<ItemProps> {
@@ -22,12 +22,12 @@ class SidebarItem extends React.Component<ItemProps> {
       <li>
         <NavLink
           exact
-          activeClassName='active'
+          activeClassName="active"
           to={link}
-          className={'waves-effect' + (subMenuItem ? '' : ' collapsible-header')}
+          className={"waves-effect" + (subMenuItem ? "" : " collapsible-header")}
           onClick={this.props.handleClick}
         >
-          {icon ? <i className={icon} /> : <i className='fas fa-info-circle' />}
+          {icon ? <i className={icon} /> : <i className="fas fa-info-circle" />}
           {desc}
         </NavLink>
       </li>

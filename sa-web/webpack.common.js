@@ -34,7 +34,9 @@ module.exports = {
       template: "app/index.html",
       title: "Production"
     }),
-    new CopyWebpackPlugin([{ from: "static" }])
+    new CopyWebpackPlugin({
+      patterns: [{ from: "static" }]
+    })
   ],
   resolve: {
     extensions: [".js", ".jsx"],

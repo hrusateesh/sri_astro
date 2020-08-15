@@ -1,11 +1,8 @@
 import "@babel/polyfill";
 import "jquery";
 import "bootstrap";
-//import "@fortawesome/fontawesome-free/css/all.min.css";
-import "bootstrap/dist/css/bootstrap.css";
-//import "mdbreact/dist/css/mdb.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-// import './custom.scss';
 import "./main.scss";
 
 import React from "react";

@@ -1,5 +1,5 @@
 group = "com.sa"
-version = "1.0-SNAPSHOT"
+version = "1.0.1-SNAPSHOT"
 
 buildscript {
 	val springBoot_version by extra { "2.1.3.RELEASE" }
